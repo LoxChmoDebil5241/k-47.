@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#000000">
+  <title>OBJ-4471</title>
+  <link rel="stylesheet" href="./src/styles/base.css">
+  <link rel="stylesheet" href="./src/styles/terminal.css">
+  <link rel="stylesheet" href="./src/styles/walls.css">
+  <link rel="stylesheet" href="./src/styles/reader.css">
+  <link rel="stylesheet" href="./src/styles/dialog47.css">
+  <link rel="stylesheet" href="./src/styles/notebook.css">
+  <link rel="stylesheet" href="./src/styles/overlays.css">
+</head>
+<body>
+  <div id="boot">
+    <div class="boot-text">СИСТЕМА OBJ-4471</div>
+    <div class="boot-bar"></div>
+    <div class="boot-hint">НАЖМИТЕ ЧТОБЫ НАЧАТЬ</div>
+  </div>
+
+  <canvas id="screenOverlay"></canvas>
+
+  <div class="dom-wall" id="domWall">
+    <div class="wall-top-light"></div>
+    <div class="wall-vignette-dom"></div>
+  </div>
+
+  <div class="photo-wall" id="photoWall">
+    <svg class="photo-connections-svg" id="photoSvg"></svg>
+  </div>
+
+  <div class="door-reveal" id="doorReveal">
+    <div class="door-frame">
+      <div class="door-bolt tl"></div>
+      <div class="door-bolt tr"></div>
+      <div class="door-bolt bl"></div>
+      <div class="door-bolt br"></div>
+      <div class="door-silhouette" id="doorSilhouette">
+        <svg viewBox="0 0 200 280" preserveAspectRatio="xMidYMax meet">
+          <circle cx="100" cy="46" r="24" fill="#000"/>
+          <rect x="90" y="66" width="20" height="14" fill="#000"/>
+          <path d="M 70 80 Q 60 90 58 140 L 60 200 L 140 200 L 142 140 Q 140 90 130 80 Z" fill="#000"/>
+          <path d="M 62 90 Q 48 130 46 175 L 56 178 Q 60 140 72 105 Z" fill="#000"/>
+          <path d="M 138 90 Q 155 95 175 105 L 178 112 Q 158 108 140 105 Z" fill="#000"/>
+          <rect x="172" y="100" width="26" height="14" fill="#000" rx="1"/>
+          <rect x="192" y="104" width="14" height="6" fill="#000"/>
+          <rect x="182" y="112" width="8" height="12" fill="#000"/>
+          <path d="M 70 200 L 66 270 L 84 270 L 90 205 Z" fill="#000"/>
+          <path d="M 130 200 L 134 270 L 116 270 L 110 205 Z" fill="#000"/>
+          <circle cx="200" cy="107" r="3" fill="#ff0033" opacity="0.65"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="silhouette-speech" id="silhouetteSpeech">ЗАГЛЯНИ В ТЕРМИНАЛ</div>
+
+  <div class="freeze" id="freeze">
+    <img id="freezeImg" alt="">
+    <div class="glitch-shift-1"></div>
+    <div class="glitch-shift-2"></div>
+    <div class="glitch-layer"></div>
+    <div class="noise-overlay"></div>
+    <div class="red-vignette"></div>
+  </div>
+
+  <div class="thoughts-layer" id="thoughtsLayer"></div>
+
+  <div class="reader-overlay" id="readerOverlay">
+    <div class="reader-header">
+      <button class="reader-btn" id="readerPrev">НАЗАД</button>
+      <div class="reader-header-nav">
+        <span class="reader-btn" id="readerIndicator">—</span>
+      </div>
+      <button class="reader-btn" id="readerNext">ВПЕРЁД</button>
+      <button class="reader-btn" id="readerClose">ВЫЙТИ</button>
+    </div>
+    <div class="reader-main" id="readerMain"></div>
+    <div class="reader-controls">
+      <span class="label">ПО АБЗАЦАМ</span>
+      <button class="btn" id="readerParagraphPrev">◀</button>
+      <span class="counter"><span id="readerVisibleCount">0</span> / <span id="readerTotalCount">0</span></span>
+      <button class="btn" id="readerParagraphNext">▶</button>
+      <button class="btn" id="readerParagraphReset">СБРОС</button>
+    </div>
+    <div class="glitch-layer-root" id="readerCracks"></div>
+    <div class="aging-root" id="readerAging">
+      <svg class="scratches-svg" id="readerAgingSvg"></svg>
+    </div>
+  </div>
+
+  <div class="sys-warning" id="sysWarning">
+    <div class="sys-warning-inner">
+      <div class="sys-warning-title">СИСТЕМНОЕ ПРЕДУПРЕЖДЕНИЕ // АРХИВ</div>
+      <div class="sys-warning-body">
+        <p>Данный раздел восстановлен из <strong>нейрослепка</strong> и <strong>нейропрофиля клона класса «Актив»</strong> (идентификатор К-47).</p>
+        <p><strong>ВНИМАНИЕ.</strong> Содержимое архива включает сцены <strong>исключительной жестокости</strong>, описания <strong>эротического характера</strong>, упоминания <strong>наркотических веществ</strong>, эпизоды, способные вызвать психологический дискомфорт.</p>
+        <p>Читайте с осторожностью.</p>
+      </div>
+      <div class="sys-warning-actions">
+        <button class="btn btn-primary" id="sysWarningOk">ПОНЯТНО</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="sys-warning" id="userAgreement">
+    <div class="sys-warning-inner">
+      <div class="sys-warning-title">ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ // v.47</div>
+      <div class="sys-warning-body">
+        <p>Для доступа к архиву необходимо принять следующие условия:</p>
+      </div>
+      <div class="agreement-list">
+        <div class="agreement-item" data-key="nd" role="checkbox" aria-checked="false" tabindex="0">
+          <div class="agreement-check"></div>
+          <div class="agreement-text"><strong>Соглашение о неразглашении</strong>Обязуюсь не распространять информацию из архива.</div>
+        </div>
+        <div class="agreement-item" data-key="rsp" role="checkbox" aria-checked="false" tabindex="0">
+          <div class="agreement-check"></div>
+          <div class="agreement-text"><strong>Отказ от ответственности</strong>Принимаю полную ответственность за последствия.</div>
+        </div>
+        <div class="agreement-item" data-key="cl" role="checkbox" aria-checked="false" tabindex="0">
+          <div class="agreement-check"></div>
+          <div class="agreement-text"><strong>Отказ от претензий</strong>Отказываюсь от любых претензий к корпорации.</div>
+        </div>
+      </div>
+      <div class="agreement-actions">
+        <button class="btn" id="agreementCancel">ОТКАЗАТЬСЯ</button>
+        <button class="btn btn-primary" id="agreementAccept" disabled>ПРИНЯТЬ ВСЁ</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="file-damage" id="fileDamage">
+    <div class="file-damage-inner">
+      <div class="file-damage-icon">!</div>
+      <div class="file-damage-title">ФАЙЛ ПОВРЕЖДЁН</div>
+      <div class="file-damage-body">Не удалось прочитать следующий раздел архива.<br>Данные восстановлены частично.</div>
+      <div class="file-damage-code" id="fileDamageCode">ERR_0x47</div>
+      <button class="btn btn-primary" id="fileDamageOk">ОК</button>
+    </div>
+  </div>
+
+  <div class="dialog-47" id="dialog47">
+    <div class="dialog-47-wrapper">
+      <div class="dialog-47-inner">
+        <div class="dialog-47-status" id="dialog47Status">НОРМА РАСХОДА ПЛОТИ НЕ ДОСТИГНУТА</div>
+        <div class="dialog-47-phrase-area">
+          <div class="dialog-47-victim" id="dialog47Victim"></div>
+          <div class="dialog-47-villain" id="dialog47Villain"></div>
+        </div>
+        <div class="dialog-47-progress"><div class="fill" id="dialog47ProgressFill"></div></div>
+        <button class="dialog-47-click-btn" id="dialog47ClickBtn">
+          НАЖАТЬ<span class="word-display empty" id="dialog47WordDisplay"></span>
+        </button>
+        <div class="dialog-47-answers" id="dialog47Answers">
+          <button data-answer="apathy">Безразличие</button>
+          <button data-answer="sadness">Печаль</button>
+          <button data-answer="anger">Гнев</button>
+          <button data-answer="joy">Радость</button>
+        </div>
+        <div class="dialog-47-dynamic" id="dialog47Dynamic"></div>
+      </div>
+      <div class="glitch-layer-root" id="dialogCracks"></div>
+      <div class="aging-root" id="dialogAging">
+        <svg class="scratches-svg" id="dialogAgingSvg"></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="dialog-flash" id="dialogFlash"></div>
+
+  <div class="notebook-overlay" id="notebookOverlay">
+    <div class="notebook-paper">
+      <button class="notebook-close" id="notebookClose">X</button>
+      <div class="notebook-header">
+        <span class="nb-title">Личный блокнот</span>
+        <span class="nb-date" id="notebookDate">--.--.----</span>
+      </div>
+      <textarea class="notebook-textarea" id="notebookText" placeholder="Здесь можно писать..." spellcheck="false"></textarea>
+      <div class="page-flip" id="pageFlip"></div>
+      <div class="notebook-footer">
+        <span id="notebookCharCount">0 символов</span>
+        <span class="notebook-save-status" id="notebookSaveStatus">сохранено</span>
+        <div class="notebook-page-nav">
+          <button class="page-btn" id="pagePrev">‹</button>
+          <span class="page-indicator" id="pageIndicator">1 / 47</span>
+          <button class="page-btn" id="pageNext">›</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button id="soundToggle">ЗВУК</button>
+
+  <div class="ui-layer" id="ui">
+    <div class="top-bar">
+      <div class="status">
+        <span class="dot"></span>
+        <span id="sysId">СИСТЕМА: OBJ-4471 // АКТИВНА</span>
+      </div>
+      <div id="clock">--:--:--</div>
+    </div>
+    <div class="side-panel panel">
+      <div class="label">Телеметрия</div>
+      <div class="row"><span>Целостность</span><span id="v1">98%</span></div>
+      <div class="bar"><i id="b1" style="width:98%"></i></div>
+      <div class="row"><span>Сигнал</span><span id="v2">74%</span></div>
+      <div class="bar"><i id="b2" style="width:74%"></i></div>
+      <div class="row"><span>Энергия</span><span id="v3">61%</span></div>
+      <div class="bar"><i id="b3" style="width:61%"></i></div>
+      <div class="row"><span>Помехи</span><span id="v4">12%</span></div>
+      <div class="bar"><i id="b4" style="width:12%"></i></div>
+    </div>
+    <div class="log-panel panel">
+      <div class="label">Журнал</div>
+      <div id="log"></div>
+    </div>
+    <div class="bottom-bar" id="barInside">
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btnOpenReader">ЧИТАТЬ АРХИВ</button>
+        <button class="btn" id="btnExit">ВЫЙТИ ИЗ СИСТЕМЫ</button>
+      </div>
+    </div>
+    <div class="aging-root" id="terminalAging">
+      <svg class="scratches-svg" id="agingScratchesSvg"></svg>
+    </div>
+    <div class="glitch-layer-root" id="crackOverlay"></div>
+  </div>
+
+  <div id="vignette"></div>
+
+  <div class="bottom-bar show" id="barOutside">
+    <div class="nav-main-layout">
+      <div class="nav-top-row">
+        <button class="btn" id="btnTurnRight">К СТЕНЕ</button>
+        <button class="btn btn-primary" id="btnTurn">ОБЕРНУТЬСЯ</button>
+        <button class="btn" id="btnTurnLeft">К СТОЛУ</button>
+      </div>
+      <button class="btn btn-primary nav-enter-btn" id="btnEnter">ВОЙТИ В ТЕРМИНАЛ</button>
+    </div>
+  </div>
+
+  <div class="bottom-bar" id="barDesk">
+    <div class="btn-row">
+      <button class="btn" id="btnApproachDesk">К БЛОКНОТУ</button>
+      <button class="btn" id="btnBackFromDesk">К ТЕРМИНАЛУ</button>
+    </div>
+  </div>
+
+  <div class="bottom-bar" id="barWall">
+    <div class="btn-row">
+      <button class="btn" id="btnApproachWall">ПОДОЙТИ</button>
+      <button class="btn" id="btnBackFromWall">К ТЕРМИНАЛУ</button>
+    </div>
+  </div>
+
+  <div class="bottom-bar" id="barWallClose">
+    <div class="btn-row">
+      <button class="btn" id="btnClearLinks">СНЯТЬ ВСЁ</button>
+      <button class="btn" id="btnBackToWallVignette">ОТОЙТИ</button>
+    </div>
+  </div>
+
+  <div class="bottom-bar" id="barNotebook">
+    <div class="btn-row">
+      <button class="btn" id="btnCloseNotebook">К СТОЛУ</button>
+      <button class="btn" id="btnBackFromNotebook">К ТЕРМИНАЛУ</button>
+    </div>
+  </div>
+
+  <div class="bottom-bar" id="barFacing">
+    <div class="btn-row">
+      <button class="btn" id="btnBack" disabled>К ТЕРМИНАЛУ</button>
+    </div>
+  </div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./src/vendor/three/three.module.js",
+      "three/addons/": "./src/vendor/three/addons/"
+    }
+  }
+  </script>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
