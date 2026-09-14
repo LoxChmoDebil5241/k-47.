@@ -21,7 +21,6 @@ import { dialog47State, openDialog47, closeDialog47, bindDialog47, setDialog47Co
 import { crackState, setThoughtsStop, setAutoExit, startThoughtsAndCracks, updateTerminalAging } from './ui/cracks.js';
 import { startThoughtsLoop, stopThoughts } from './ui/thoughts.js';
 import { CHAPTERS } from './content/chapters.js';
-import { initReset } from './ui/reset.js';
 
 /* ============================================================
    INIT
@@ -32,7 +31,6 @@ initNotebook();
 initTelemetry();
 bindReaderNav();
 bindDialog47();
-initReset();
 
 /* ============================================================
    UI BAR MANAGEMENT
