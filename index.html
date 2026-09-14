@@ -43,6 +43,9 @@
     <div class="door-bolt tr"></div>
     <div class="door-bolt bl"></div>
     <div class="door-bolt br"></div>
+    <div class="door-bg-layer">
+      <img src="./back.png" alt="">
+    </div>
     <div class="door-silhouette" id="doorSilhouette">
       <svg viewBox="0 0 200 280" preserveAspectRatio="xMidYMax meet">
         <circle cx="100" cy="46" r="24" fill="#000"/>
@@ -287,6 +290,7 @@
 
 <div class="bottom-bar" id="barFacing">
   <div class="btn-row">
+    <button class="btn" id="btnPeer">ВСМОТРЕТЬСЯ</button>
     <button class="btn" id="btnBack" disabled>К ТЕРМИНАЛУ</button>
   </div>
 </div>
@@ -294,8 +298,8 @@
 <script type="importmap">
 {
   "imports": {
-    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
   }
 }
 </script>
