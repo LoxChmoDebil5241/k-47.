@@ -52,6 +52,7 @@ const btns = {
   enter: $('btnEnter'),
   exit: $('btnExit'),
   back: $('btnBack'),
+  peer: $('btnPeer'),
   approachDesk: $('btnApproachDesk'),
   backFromDesk: $('btnBackFromDesk'),
   approachWall: $('btnApproachWall'),
@@ -89,14 +90,12 @@ function showWall(mode) {
    DOOR SCENE
    ============================================================ */
 function startDoorScene() {
-  state.doorScene = { active: true, elapsed: 0, frameVisible: false, silhouetteVisible: false, spoke: false, fired: false };
-  if (!state.cycle47Complete) {
-    Audio.dreadRamp(4.7, { onDone: () => { if (state.doorScene.active) revealDoorFrame(); } });
-    logLine('Тишина...', true);
-  } else {
-    Timers.set('door-frame-cycle', () => { if (state.doorScene.active) revealDoorFrame(); }, 1200);
-    logLine('Дверь открывается...', true);
-  }
+  state.doorScene = { active: true, elapsed: 0, frameVisible: false, silhouetteVisible: false, spoke: false, fired: false, peering: false };
+  Timers.set('door-frame-cycle', () => {
+    if (!state.doorScene.active) return;
+    revealDoorFrame();
+  }, 1200);
+  logLine('Дверь открывается...', true);
 }
 function revealDoorFrame() {
   state.doorScene.frameVisible = true;
@@ -105,15 +104,38 @@ function revealDoorFrame() {
     $('doorReveal').classList.add('frame-visible');
     if (Audio.isEnabled()) Audio.whisper(1.8);
   }, 400);
-  Timers.set('door-silhouette', () => { if (state.doorScene.active) revealSilhouette(); }, 3400);
+}
+function peekIntoDark() {
+  if (!state.doorScene.active || state.doorScene.peering) return;
+  state.doorScene.peering = true;
+  state.phase = 'peering';
+  if (Audio.isEnabled()) Audio.whoosh(1.5, false);
+  $('doorReveal').classList.add('peering');
+  setButtonState([btns.peer, true], [btns.back, true]);
+
+  const fromPos = camera.position.clone();
+  const fromRotX = camera.rotation.x;
+  const fromYaw = camera.rotation.y;
+  const toPos = CONFIG.camera.peerPos;
+  const toRotX = CONFIG.camera.peerRotX;
+
+  beginTransition(fromPos, toPos, fromRotX, toRotX, fromYaw, fromYaw, CONFIG.timings.peer, () => {
+    Timers.set('door-reveal-silhouette', () => {
+      if (!state.doorScene.active) return;
+      revealSilhouette();
+    }, 800);
+  });
 }
 function revealSilhouette() {
   if (state.doorScene.silhouetteVisible) return;
   state.doorScene.silhouetteVisible = true;
   $('doorReveal').classList.add('silhouette-visible');
   if (Audio.isEnabled()) Audio.whisper(2.2);
+
   if (!state.cycle47Complete) {
-    Timers.set('door-fire', () => { if (state.doorScene.active) fireBarrage(); }, 1800);
+    Timers.set('door-fire', () => {
+      if (state.doorScene.active) fireBarrage();
+    }, 1800);
   } else {
     Timers.set('door-speak', () => {
       if (state.doorScene.spoke) return;
@@ -180,10 +202,11 @@ function softResetExperience() {
 }
 function autoTurnToTerminal() {
   state.doorScene.active = false;
+  state.doorScene.peering = false;
   Audio.stopDreadRamp(0.8);
-  $('doorReveal').classList.remove('active', 'frame-visible', 'silhouette-visible');
+  $('doorReveal').classList.remove('active', 'frame-visible', 'silhouette-visible', 'peering');
   $('silhouetteSpeech').classList.remove('show', 'pulse');
-  if (state.phase === 'idle-after-turn' || state.phase === 'turning') {
+  if (state.phase === 'idle-after-turn' || state.phase === 'turning' || state.phase === 'peering') {
     state.phase = 'turning-back';
     Audio.whoosh(1.0, true);
     beginTransition(
@@ -204,9 +227,10 @@ function autoTurnToTerminal() {
 }
 function stopDoorScene() {
   state.doorScene.active = false;
+  state.doorScene.peering = false;
   Audio.stopDreadRamp(0.8);
-  ['door-frame-cycle','door-frame-visible','door-silhouette','door-fire','door-speak','door-autoturn','gunflash-off','freeze-trigger'].forEach(k => Timers.clear(k));
-  $('doorReveal').classList.remove('active', 'frame-visible', 'silhouette-visible');
+  ['door-frame-cycle','door-frame-visible','door-silhouette','door-fire','door-speak','door-autoturn','gunflash-off','freeze-trigger','door-reveal-silhouette'].forEach(k => Timers.clear(k));
+  $('doorReveal').classList.remove('active', 'frame-visible', 'silhouette-visible', 'peering');
   $('silhouetteSpeech').classList.remove('show', 'pulse');
 }
 
@@ -239,7 +263,7 @@ function startTurn(target, targetYaw, phase) {
     } else {
       state.phase = 'idle-after-turn';
       setBar('facing');
-      setButtonState([btns.back, true]);
+      setButtonState([btns.peer, false], [btns.back, false]);
       startDoorScene();
     }
   });
@@ -418,6 +442,7 @@ bindClick(btns.turnLeft, () => startTurn('desk', CONFIG.camera.endYawDesk, 'turn
 bindClick(btns.turnRight, () => startTurn('wall', CONFIG.camera.endYawWall, 'turning-right'));
 bindClick(btns.enter, enterSystem);
 bindClick(btns.exit, exitSystem);
+bindClick(btns.peer, peekIntoDark);
 bindClick(btns.approachDesk, approachDesk);
 bindClick(btns.backFromDesk, turnBackFromDesk);
 bindClick(btns.approachWall, approachWall);
@@ -517,6 +542,7 @@ function updatePostFX() {
   if (p) {
     const phase = p.elapsed / p.duration;
     if (state.phase === 'entering' || state.phase === 'exiting') abBoost = 1.0 + Math.sin(phase * Math.PI) * 3.0;
+    else if (state.phase === 'peering') abBoost = 1.0 + Math.sin(phase * Math.PI) * 2.5;
     else if (state.phase.startsWith('turning')) abBoost = 1.0 + Math.sin(phase * Math.PI) * 2.0;
   }
   if (state.doorScene.active) abBoost = Math.max(abBoost, 1.5 + state.doorScene.elapsed * 0.5);
