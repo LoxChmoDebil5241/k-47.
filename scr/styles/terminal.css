@@ -1,1 +1,83 @@
+.ui-layer {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 10;
+  letter-spacing: 1px;
+  text-shadow: 0 0 8px rgba(255, 0, 51, 0.85);
+  opacity: 0; transition: opacity 0.5s ease;
+}
+.ui-layer.active { opacity: 1; }
 
+.panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 4px;
+  backdrop-filter: blur(6px) saturate(1.1);
+  -webkit-backdrop-filter: blur(6px) saturate(1.1);
+}
+.top-bar {
+  position: absolute; top: 0; left: 0; right: 0; height: 44px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px;
+  background: linear-gradient(180deg, rgba(20,0,5,0.9), rgba(20,0,5,0));
+  font-size: 12px;
+  border-bottom: 1px solid rgba(255, 0, 51, 0.22);
+  pointer-events: auto;
+}
+.top-bar .status { display: flex; align-items: center; gap: 8px; }
+.dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--neon);
+  box-shadow: 0 0 10px var(--neon), 0 0 20px var(--neon);
+  animation: blink 1.4s ease-in-out infinite;
+}
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.15; } }
+
+.side-panel {
+  position: absolute; top: 62px; left: 20px;
+  width: 210px; padding: 12px 14px;
+  font-size: 11px; line-height: 1.7;
+  pointer-events: auto;
+}
+.side-panel .label {
+  color: var(--neon-dim); font-size: 10px;
+  text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 8px;
+}
+.side-panel .row {
+  display: flex; justify-content: space-between;
+  font-variant-numeric: tabular-nums;
+}
+.side-panel .bar {
+  height: 4px; margin: 3px 0 8px;
+  background: rgba(255, 0, 51, 0.12);
+  border-radius: 2px; overflow: hidden;
+}
+.side-panel .bar > i {
+  display: block; height: 100%;
+  background: linear-gradient(90deg, var(--neon-dark), var(--neon));
+  box-shadow: 0 0 8px var(--neon);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.log-panel {
+  position: absolute; top: 62px; right: 20px;
+  width: 230px; height: 210px;
+  padding: 10px 12px;
+  font-size: 10px; line-height: 1.6;
+  overflow: hidden; pointer-events: auto;
+}
+.log-panel .label {
+  color: var(--neon-dim); font-size: 10px;
+  text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 8px;
+}
+.log-line {
+  opacity: 0;
+  animation: logIn 0.35s ease forwards;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.log-line.dim { color: #772244; }
+@keyframes logIn { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: translateX(0); } }
+
+@media (max-width: 720px) {
+  .side-panel, .log-panel { display: none; }
+  .top-bar { font-size: 10px; padding: 0 12px; height: 38px; }
+}
