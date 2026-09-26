@@ -177,7 +177,10 @@ Acts.room = {
       switch (id) {
         case 'notebook': openNotebook(); break;
         case 'drawer': Audio47.sfx.drawer(); Modal.open($('#drawerModal')); break;
-        case 'photo': openZoom('ФОТО В РАМКЕ', 'Женщина, чьего лица никто не помнит.', RoomTex.get().oldPhoto); break;
+        case 'photo':
+          if (Frag.status(6) === 'ok') openZoom('ФОТО В РАМКЕ', 'Трава. Небо. Женщина с карими глазами. Картонка погнулась, но её сберегли.', paintMotherPhoto(256, 320));
+          else openZoom('ФОТО В РАМКЕ', 'Женщина, чьего лица никто не помнит.', RoomTex.get().oldPhoto);
+          break;
         case 'note': openZoom('ЗАПИСКА', 'Жёлтый листок, прилип к столу. Почерк торопливый.', RoomTex.stickyNote(1, RoomTex.codeParts(S.code)[0])); break;
         case 'radio':
           Audio47.sfx.radio(3.4); ctx.R3.radioLed(true); scope.timeout(() => ctx.R3 && ctx.R3.radioLed(false), 3500);
@@ -201,10 +204,27 @@ Acts.room = {
       const note = $('#nbNote');
       note.innerHTML = '';
       const head = document.createElement('span'); head.className = 'nb-ch'; head.textContent = `гл. ${n + 1} · ${ch ? ch.t : ''}`;
+      note.append(head);
+      // запись самого К-47 — проступает, когда фрагмент главы восстановлен (или искажён)
+      const fs = Frag.status(n), fn = GameState.frag.notes[n];
+      if (fs === 'ok' || fs === 'dist') {
+        const own = document.createElement('span'); own.className = `nb-frag${fs === 'dist' ? ' dist' : ''}`;
+        own.textContent = fn ? fn.t : ''; note.append(own);
+      } else if (fs === 'dmg') {
+        const own = document.createElement('span'); own.className = 'nb-frag dmg'; own.textContent = '▒▒▒ запись размыта — фрагмент повреждён ▒▒▒'; note.append(own);
+      }
+      if (n === 0) {
+        const res = Store.get(KEYS.residual, null);
+        if (res && Array.isArray(res.items) && res.items.length) {
+          const r = document.createElement('span'); r.className = 'nb-frag residual';
+          r.textContent = `Остаточные данные · 0,47% · от К-${res.from}: ${res.items.map(x => String(x.label).toLowerCase()).join(', ')}.`;
+          note.append(r);
+        }
+      }
       const body = document.createElement('span');
       if (R.read.has(n)) { body.className = 'nb-comment'; body.textContent = DIARY[n] || ''; }
       else { body.className = 'nb-empty'; body.textContent = 'Страница пуста. Запись появится, когда глава будет прочитана.'; }
-      note.append(head, body);
+      note.append(body);
       $('#nbPage').textContent = `${n + 1} / ${NB_PAGES}`;
       $('#nbPrev').disabled = n === 0;
       $('#nbNext').disabled = n === NB_PAGES - 1;
@@ -254,8 +274,8 @@ Acts.room = {
       if (ctx.R3) ctx.R3.setActive(false);
       mount.classList.add('tilted'); $('#roomFreeze').classList.add('on');
       Audio47.sfx.glitch(3);
-      await scope.wait(2700);
-      resetToBoot();
+      await scope.wait(1700);
+      cloneDestroyed();
     };
 
     // ---------- взгляд в темноту: у стены, влево — к проёму ----------

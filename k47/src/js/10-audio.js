@@ -478,6 +478,9 @@ const Audio47 = (() => {
     /** пауза игры: заморозить все звуки и фоны; false — продолжить */
     hold(on) { held = !!on; if (!ctx) return; if (held) ctx.suspend(); else if (!document.hidden) ctx.resume(); },
     rumble, dread, sfx,
+    /** общий контекст и шина событий — для звука мини-игр */
+    raw() { if (!ensure()) return null; return { ctx, out: sfxBus, verb }; },
+    live,
   };
 })();
 window.Audio47 = Audio47;

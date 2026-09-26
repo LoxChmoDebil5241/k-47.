@@ -21,6 +21,7 @@ async function startAct(name, opts = {}) {
   const prev = GameState.act;
   const curtain = $('#curtain');
   if (opts.flash) FX.flash(opts.flash, 800, 0.85);
+  Frag.kill();
   Modal.closeAll();
   if (opts.overlay) await wait(220);
   else { curtain.classList.add('on'); await wait(opts.fast ? 380 : 950); }
@@ -64,8 +65,10 @@ async function leaveToBoot({ wipe = false, all = false } = {}) {
   curtain.classList.add('on');
   Audio47.setAmbient(null, 1.2);
   await wait(1300);
+  Frag.kill();
   Modal.closeAll();
   Game.resume();
+  DeathScreen.hide();
   if (actScope) { actScope.dispose(); actScope = null; }
   Object.values(ACT_ROOTS).forEach(sel => { const r = $(sel); r.hidden = true; r.inert = false; });
   $('#deathFreeze').classList.remove('on');
@@ -91,8 +94,8 @@ async function shootPlayer({ all = false } = {}) {
   await wait(380);
   $('#deathFreeze').classList.add('on');
   Audio47.sfx.glitch(3);
-  await wait(2400);
-  resetToBoot();
+  await wait(1600);
+  cloneDestroyed({ sub: all ? 'ЦИКЛ ЗАКОНЧЕН ВРУЧНУЮ' : '' });
 }
 
 /** не перехватывать клавиши, пока пользователь печатает */

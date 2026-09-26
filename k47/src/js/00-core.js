@@ -26,6 +26,9 @@ const KEYS = {
   choices: 'k47_choices',
   audio: 'k47_audio',
   fx: 'k47_fx',
+  frags: 'k47_frags',        // результаты мини-игр: статусы глав, записи, износ носителя
+  residual: 'k47_residual',  // остаточные данные — переживают смену цикла
+  cycle: 'k47_cycle',        // номер клона: растёт с каждой смертью
 };
 const Store = {
   get(key, fallback) {
@@ -56,6 +59,9 @@ const GameState = {
   clicks: { count: 0, done: false },
   choices: { emotion: null, asked: [], finished: false },
   notebook: { pages: [], current: 0 },   // блокнот со стола: страница = глава
+  // восстановление нейрослепка: мини-игра перед каждой главой
+  frag: { st: {}, notes: {}, wear: 0 },  // st[i]: ok | dist | dmg | skip; notes[i]: { t, k }; wear 0…100
+  cycle: 47,                // номер текущего клона (К-47 → после смерти К-48, К-49…)
   // сюжет в комнате: explore → damaged → norm → feel → final
   story: { stage: 'explore', code: '', codeOk: false, cracked: false, hits: [] },
   readMode: false,          // режим чтения: только текст книги
@@ -82,6 +88,8 @@ const Save = {
   clicks() { Store.set(KEYS.clicks, GameState.clicks.count); },
   choices() { Store.set(KEYS.choices, GameState.choices); },
   notebook() { Store.set(KEYS.notebook, GameState.notebook); },
+  frags() { Store.set(KEYS.frags, GameState.frag); },
+  cycle() { Store.set(KEYS.cycle, GameState.cycle); },
   hasProgress() { const p = Store.get(KEYS.progress, null); return !!(p && p.act); },
   /** восстановить всё сохранённое в GameState; вернуть объект прогресса или null */
   load() {
@@ -96,6 +104,14 @@ const Save = {
     const read = Store.get(KEYS.chapters, []);
     s.reader.read = new Set(Array.isArray(read) ? read.filter(n => Number.isInteger(n) && n >= 0 && n < BOOK.length) : []);
     s.clicks.count = clamp(parseInt(Store.get(KEYS.clicks, 0), 10) || 0, 0, CLICKS_NEEDED);
+    s.cycle = Math.max(47, parseInt(Store.get(KEYS.cycle, 47), 10) || 47);
+    const fr = Store.get(KEYS.frags, null), okSt = ['ok', 'dist', 'dmg', 'skip'];
+    s.frag = { st: {}, notes: {}, wear: 0 };
+    if (fr && typeof fr === 'object') {
+      if (fr.st && typeof fr.st === 'object') for (const [k, v] of Object.entries(fr.st)) if (okSt.includes(v) && +k >= 0 && +k < BOOK.length) s.frag.st[k] = v;
+      if (fr.notes && typeof fr.notes === 'object') for (const [k, v] of Object.entries(fr.notes)) if (v && typeof v.t === 'string') s.frag.notes[k] = { t: v.t.slice(0, 600), k: v.k === 'dist' ? 'dist' : 'ok' };
+      s.frag.wear = clamp(+fr.wear || 0, 0, 100);
+    }
     s.clicks.done = s.clicks.count >= CLICKS_NEEDED;
     const ch = Store.get(KEYS.choices, null);
     if (ch && typeof ch === 'object') {
@@ -121,7 +137,7 @@ const Save = {
   },
   /** новый цикл (и любая смерть): стираем прогресс, оставляем звук и свои записи в блокноте */
   wipe({ all = false } = {}) {
-    [KEYS.progress, KEYS.chapters, KEYS.clicks, KEYS.choices].forEach(Store.remove);
+    [KEYS.progress, KEYS.chapters, KEYS.clicks, KEYS.choices, KEYS.frags].forEach(Store.remove);
     if (all) { Store.remove(KEYS.notebook); GameState.notebook = { pages: Array(NB_PAGES).fill(''), current: 0 }; }
     const s = GameState;
     s.act = null; s.sub = null; s.agingLevel = 0;
@@ -131,6 +147,7 @@ const Save = {
     s.choices.emotion = null; s.choices.asked = []; s.choices.finished = false;
     s.story = { stage: 'explore', code: genCode(), codeOk: false, cracked: false, hits: [] };
     s.readMode = false;
+    s.frag = { st: {}, notes: {}, wear: 0 };
   },
 };
 
@@ -193,6 +210,7 @@ const Loop = (() => {
 
 // ---------- Scope: таймеры (игровые часы)/слушатели/тикеры сцены, снимаются одним вызовом ----------
 class Scope {
+  static seq = 0;
   constructor(name) { this.name = name; this.timers = new Set(); this.listeners = []; this.tickers = new Set(); this.alive = true; this.cleanups = []; }
   timeout(fn, ms) {
     if (!this.alive) return 0;
@@ -213,6 +231,14 @@ class Scope {
   tick(id, fn, fps) { const key = `${this.name}:${id}`; fps ? Loop.addThrottled(key, fps, fn) : Loop.add(key, fn); this.tickers.add(key); }
   untick(id) { const key = `${this.name}:${id}`; Loop.remove(key); this.tickers.delete(key); }
   onDispose(fn) { this.cleanups.push(fn); }
+  /** кадр за кадром fn(dt, t) по игровым часам (dt ≤ 0.05 с); вернуть false — остановить; вернёт функцию остановки */
+  loop(fn) {
+    const id = `loop${++Scope.seq}`;
+    this.tick(id, dt => { if (fn(Math.min(0.05, dt), Clock.now()) === false) this.untick(id); });
+    return () => this.untick(id);
+  }
+  /** освободить вместе со сценой: функция или объект со stop() */
+  own(x) { this.onDispose(() => { if (typeof x === 'function') x(); else if (x && x.stop) x.stop(); }); return x; }
   dispose() {
     this.alive = false;
     this.timers.forEach(id => Clock.cancel(id)); this.timers.clear();

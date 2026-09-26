@@ -31,6 +31,9 @@ function setupTerminal(ctx) {
       lines.push([`Архив из ${BOOK.length} глав доступен`]);
       if (S.cracked) lines.push(['Носитель повреждён', 'err']);
       else if (GameState.agingLevel > 0.08) lines.push([`Износ носителя: ${Math.round(GameState.agingLevel * 100)}%`, 'warn']);
+      const fc = Frag.counts();
+      if (fc.ok + fc.dist) lines.push([`Нейрослепок: восстановлено ${fc.ok}, искажено ${fc.dist}`, 'dim']);
+      if (GameState.frag.wear >= 60) lines.push([`Износ носителя: ${GameState.frag.wear}% — КРИТИЧНО`, 'err']);
       if (S.stage === 'final') lines.push(['Главы 47–49 открыты', 'ok']);
       else lines.push(['Доступ разрешён', 'ok']);
     }
@@ -43,7 +46,7 @@ function setupTerminal(ctx) {
   // ---------- телеметрия и часы ----------
   const tele = [['#tv1', '#tb1'], ['#tv2', '#tb2'], ['#tv3', '#tb3'], ['#tv4', '#tb4']].map(([v, b]) => [$(v), $(b)]);
   function updateTele() {
-    const a = GameState.agingLevel + (S.cracked ? 0.35 : 0);
+    const a = GameState.agingLevel + (S.cracked ? 0.35 : 0) + GameState.frag.wear / 250;
     const vals = [98 - a * 150, 74 + rand(-4, 4) - a * 40, 61 + rand(-2, 2), 12 + rand(-3, 3) + a * 160].map(v => Math.round(clamp(v, 3, 99)));
     tele.forEach(([v, b], i) => { v.textContent = `${vals[i]}%`; b.style.width = `${vals[i]}%`; });
     tele[3][1].classList.toggle('hot', vals[3] > 45);
@@ -52,6 +55,10 @@ function setupTerminal(ctx) {
   function stats() {
     $('#tcRead').textContent = `${R.read.size} / ${BOOK.length}`;
     $('#tcNorm').textContent = `${GameState.clicks.count} / ${CLICKS_NEEDED}`;
+    const fc = Frag.counts();
+    $('#tcFrag').textContent = `${fc.ok} / ${fc.total}`;
+    $('#tcWear').textContent = `${GameState.frag.wear}%`;
+    $('#tcWear').parentElement.classList.toggle('hot', GameState.frag.wear >= 60);
     const ch = BOOK[R.chapter];
     $('#tcLast').textContent = ch ? `ПОСЛЕДНЯЯ ЗАПИСЬ: ГЛ. ${R.chapter + 1} · «${ch.t}»` : '';
   }
@@ -277,11 +284,21 @@ function setupTerminal(ctx) {
       f.innerHTML = '<p class="note">Конец архива. Дальше — без счёта.</p>';
     }
   }
+  /** плашка статуса фрагмента под заголовком главы */
+  function fragBadge(i) {
+    const F = FRAGS[i]; if (!F) return '';
+    const st = Frag.status(i) || 'none';
+    const lbl = st === 'none' ? 'ФРАГМЕНТ НЕ ВОССТАНОВЛЕН' : `ФРАГМЕНТ ${STATUS_LABEL[st]}`;
+    const btn = st === 'ok' ? '↻ ПРОЖИТЬ ЕЩЁ РАЗ' : '↻ ВОССТАНОВИТЬ';
+    return `<div class="ch-frag st-${st}"><span class="chip">${lbl}</span><span class="fn">${esc(F.name)}</span><button class="rd-btn" data-frag="${i}" aria-label="${btn.slice(2)}: ${esc(F.name)}">${btn}</button></div>`;
+  }
   function renderChapter(i) {
     const ch = BOOK[i];
     units = chapterUnits(i);
-    art.innerHTML = `<header class="ch-head"><p class="ch-num">Глава ${i + 1}</p><h2 class="ch-title" id="chTitle">${ch.t}</h2></header>
-      <div class="ch-text">${units.map((u, k) => `<div class="para" data-k="${k}" hidden>${u.sep ? '<p class="sep" aria-hidden="true">— — —</p>' : ''}<p>${u.text}</p></div>`).join('')}</div>
+    const ratio = Frag.glitch(i), seed = 4700 + i * 97;
+    const txt = (u, k) => (ratio ? glitchRich(u.text, ratio, seed + k * 13) : u.text);
+    art.innerHTML = `<header class="ch-head"><p class="ch-num">Глава ${i + 1}</p><h2 class="ch-title" id="chTitle">${ch.t}</h2>${fragBadge(i)}</header>
+      <div class="ch-text${ratio ? ' damaged' : ''}">${units.map((u, k) => `<div class="para" data-k="${k}" hidden>${u.sep ? '<p class="sep" aria-hidden="true">— — —</p>' : ''}<p>${txt(u, k)}</p></div>`).join('')}</div>
       <p class="rd-tap" id="rdTap">▼ нажми на текст — следующий абзац</p>
       <footer class="ch-foot" id="chFoot" hidden></footer>`;
     footer(i);
@@ -319,8 +336,22 @@ function setupTerminal(ctx) {
     log(`Блокнот: новая запись, стр. ${i + 1}`, 'dim');
     if (R.read.size <= 47) log(`На стене: фото №${R.read.size}`, 'dim');
   }
+  /** мини-игра главы: сначала фрагмент, потом текст в том виде, в каком его удалось восстановить */
+  async function playFragment(i, replay = false) {
+    if (Frag.isBusy() || !FRAGS[i]) return;
+    ctx.phase = 'fragment';
+    const r = await Frag.run(i, { replay, onLog: (t, c) => log(t, c) });
+    if (!scope.alive || r === 'dead') return;
+    ctx.phase = 'reader';
+    if (R.chapter === i) {
+      const v = visible;
+      renderChapter(i); visible = 0; setVisible(Math.max(1, v), { scroll: false });
+    }
+    stats();
+    requestAnimationFrame(() => main.focus({ preventScroll: true }));
+  }
   function openChapter(i, { first = false } = {}) {
-    if (i < 0 || i >= BOOK.length || ctx.phase === 'dying') return;
+    if (i < 0 || i >= BOOK.length || ctx.phase === 'dying' || ctx.phase === 'fragment') return;
     if (isLocked(i)) { lockedChapter(i); return; }
     if (!first && i !== R.chapter) Audio47.sfx.page();
     const wasRead = R.read.has(i);
@@ -331,6 +362,7 @@ function setupTerminal(ctx) {
     setVisible(wasRead ? units.length : 1, { scroll: false });
     main.scrollTop = 0;
     Save.progress();
+    if (FRAGS[i] && !Frag.status(i)) playFragment(i);
   }
   function openReader(i, { direct = false } = {}) {
     if (!Number.isInteger(i) || i < 0 || i >= BOOK.length) i = 0;
@@ -425,10 +457,11 @@ function setupTerminal(ctx) {
   function openToc() {
     const list = $('#tocList');
     list.innerHTML = BOOK.map((ch, i) => {
-      const locked = isLocked(i), read = R.read.has(i), cur = i === R.chapter;
-      const mark = locked ? 'заперта' : read ? '✓' : '';
-      const label = `Глава ${i + 1}. ${ch.t}${locked ? '. Заперта' : read ? '. Прочитана' : ''}`;
-      return `<li><button class="toc-item${cur ? ' current' : ''}${locked ? ' locked' : ''}" data-go="${i}" aria-label="${label}"${cur ? ' aria-current="true"' : ''}>
+      const locked = isLocked(i), read = R.read.has(i), cur = i === R.chapter, fs = Frag.status(i);
+      const fm = { ok: '◆', dist: '≈', dmg: '✕', skip: '·' }[fs] || '';
+      const mark = locked ? 'заперта' : `${fm}${read ? ' ✓' : ''}`;
+      const label = `Глава ${i + 1}. ${ch.t}${locked ? '. Заперта' : read ? '. Прочитана' : ''}${fs ? `. Фрагмент: ${STATUS_LABEL[fs].toLowerCase()}` : ''}`;
+      return `<li><button class="toc-item${cur ? ' current' : ''}${locked ? ' locked' : ''}${fs ? ` fs-${fs}` : ''}" data-go="${i}" aria-label="${label}"${cur ? ' aria-current="true"' : ''}>
         <span class="n">${i + 1}</span><span class="t">${ch.t}</span><span class="m">${mark}</span></button></li>`;
     }).join('');
     Modal.open($('#tocModal'), { focus: '.toc-item.current' });
@@ -455,7 +488,9 @@ function setupTerminal(ctx) {
   nav('#paraAll', () => setVisible(units.length, { scroll: false }));
   nav('#paraReset', () => { setVisible(0, { scroll: false }); main.scrollTop = 0; });
   scope.on(art, 'click', e => {
-    if (ctx.phase === 'dying') return;
+    if (ctx.phase === 'dying' || ctx.phase === 'fragment') return;
+    const fb = e.target.closest('[data-frag]');
+    if (fb) { e.stopPropagation(); Audio47.sfx.click(); playFragment(+fb.dataset.frag, true); return; }
     const go = e.target.closest('[data-go]');
     if (go) { Audio47.sfx.click(); openChapter(+go.dataset.go); return; }
     if (visible < units.length && !String(window.getSelection() || '')) { Audio47.sfx.key(); setVisible(visible + 1); }

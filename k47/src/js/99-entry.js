@@ -2,6 +2,7 @@
    ТОЧКА ВХОДА: заставка при каждом заходе, продолжение сохранения, звук, ресайз.
    ========================================================================== */
 const bootEl = $('#boot');
+let bootSplashStop = null;   // заставка-визор рисуется, только пока видна
 
 /**
  * Заставка — при каждом заходе. Впервые (или после смерти) — только название:
@@ -13,6 +14,8 @@ function showBoot() {
   const actions = $('#bootActions');
   bootEl.hidden = false;
   bootEl.classList.remove('gone');
+  if (!bootSplashStop) bootSplashStop = Splash.run($('#bootSplash'));
+  $('#bootPress').hidden = hasSave;
   bootEl.classList.toggle('saved', hasSave);
   bootEl.setAttribute('role', hasSave ? 'dialog' : 'button');
   actions.hidden = !hasSave;
@@ -42,7 +45,7 @@ function showBoot() {
 function begin(fresh) {
   Audio47.unlock(); Audio47.sfx.whoosh(1.2);
   bootEl.classList.add('gone');
-  setTimeout(() => { bootEl.hidden = true; bootEl.classList.remove('on'); }, 1000);
+  setTimeout(() => { bootEl.hidden = true; bootEl.classList.remove('on'); if (bootSplashStop) { bootSplashStop(); bootSplashStop = null; } }, 1000);
   if (fresh) Save.wipe();
   const saved = Save.load();
   Menu.setAvailable(true);

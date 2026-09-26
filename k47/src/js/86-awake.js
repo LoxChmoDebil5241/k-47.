@@ -167,6 +167,9 @@ async function runAwake(scope, { root, stage, labels, figs, m, say }) {
 async function finale(scope) {
   const fin = $('#awFinal'), words = $('#finWords'), actions = $('#finActions');
   fin.hidden = false; fin.className = 'final show-title';
+  const stopSplash = Splash.run($('#finSplash'), { text: true });
+  scope.onDispose(stopSplash);
+  scope.timeout(stopSplash, 3400);
   await scope.wait(3400);
   Audio47.sfx.glitch(0.6); FX.flash('#ff0033', 180, 0.5);
   fin.className = 'final show-cut';

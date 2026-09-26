@@ -3,11 +3,9 @@
 <!-- ======================= ЗАСТАВКА: только название ======================= -->
 <div class="boot" id="boot" role="button" tabindex="0" hidden
   aria-label="К-47. Нормы расхода плоти. Цикл-48. Нажмите любую клавишу или коснитесь экрана.">
-  <h1 class="boot-title" aria-hidden="true">
-    <span class="bt-k" data-text="К-47.">К-47.</span>
-    <span class="bt-main">Нормы расхода плоти.</span>
-    <span class="bt-cycle">Цикл-48</span>
-  </h1>
+  <canvas class="boot-splash" id="bootSplash" aria-hidden="true"></canvas>
+  <h1 class="sr-only">К-47. Нормы расхода плоти. Цикл-48. И дальше без счёта.</h1>
+  <p class="boot-press" id="bootPress" aria-hidden="true">▮ ЛЮБАЯ КЛАВИША · КАСАНИЕ</p>
   <div class="boot-actions" id="bootActions" hidden>
     <button class="btn btn-primary" id="bootContinue">ПРОДОЛЖИТЬ</button>
     <button class="btn" id="bootRestart">НАЧАТЬ СНАЧАЛА</button>
@@ -233,6 +231,8 @@
         <div><dt>ГЛАВ</dt><dd id="tcTotal">49</dd></div>
         <div><dt>ПРОЧИТАНО</dt><dd id="tcRead">0</dd></div>
         <div><dt>НОРМА</dt><dd id="tcNorm">0 / 47</dd></div>
+        <div><dt>ФРАГМЕНТЫ</dt><dd id="tcFrag">0 / 49</dd></div>
+        <div class="wear"><dt>ИЗНОС</dt><dd id="tcWear">0%</dd></div>
       </dl>
       <p class="tc-last" id="tcLast"></p>
     </section>
@@ -413,11 +413,8 @@
     <p class="look-hint aw-hint" id="awHint" aria-hidden="true">ЗАЖМИ И ВЕДИ — ОСМОТРЕТЬСЯ</p>
   </div>
   <div class="final" id="awFinal" hidden>
-    <h1 class="boot-title final-title" id="finTitle" aria-label="К-47. Нормы расхода плоти. Цикл-48">
-      <span class="bt-k" data-text="К-47.">К-47.</span>
-      <span class="bt-main">Нормы расхода плоти.</span>
-      <span class="bt-cycle">Цикл-48</span>
-    </h1>
+    <canvas class="final-title final-splash" id="finSplash" aria-hidden="true"></canvas>
+    <h1 class="sr-only" id="finTitle">К-47. Нормы расхода плоти. Цикл-48</h1>
     <p class="final-cut" id="finCut">И ДАЛЬШЕ БЕЗ СЧЁТА.</p>
     <p class="final-words" id="finWords" aria-live="polite"></p>
     <div class="final-actions" id="finActions" hidden>
@@ -453,6 +450,63 @@
     <main class="reader-main" id="rmMain" tabindex="0" aria-label="Текст главы"><article class="chapter" id="rmArticle"></article></main>
   </div>
 </section>
+
+<!-- ======================= МИНИ-ИГРА: восстановление фрагмента главы ======================= -->
+<section class="mg-stage" id="mgStage" hidden aria-labelledby="mgTitle">
+  <header class="mg-top">
+    <button class="rd-btn" id="mgAbort" aria-label="Прервать фрагмент (Esc)">✕ ПРЕРВАТЬ</button>
+    <div class="mg-title" id="mgTitle"></div>
+    <div class="mg-stat" id="mgStat" aria-live="polite"></div>
+  </header>
+  <div class="mg-body" id="mgBody"></div>
+  <p class="mg-hint" id="mgHint"></p>
+</section>
+
+<div class="modal mg-modal" id="mgIntro" role="dialog" aria-modal="true" aria-labelledby="mgIntroTitle" tabindex="-1" hidden>
+  <div class="panel">
+    <p class="kicker" id="mgIntroKicker"></p>
+    <h2 id="mgIntroTitle"></h2>
+    <div class="frag-text" id="mgIntroText"></div>
+    <p class="how" id="mgIntroHow"></p>
+    <p class="keys" id="mgIntroKeys"></p>
+    <div class="row">
+      <button class="btn" id="mgIntroBack">ЧИТАТЬ ПОВРЕЖДЁННЫМ</button>
+      <button class="btn btn-primary pulse" id="mgIntroGo">ВОССТАНОВИТЬ ФРАГМЕНТ</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal mg-modal" id="mgResult" role="dialog" aria-modal="true" aria-labelledby="mgResTitle" tabindex="-1" hidden>
+  <div class="panel">
+    <p class="kicker" id="mgResKicker"></p>
+    <h2 id="mgResTitle"></h2>
+    <div class="frag-text" id="mgResText"></div>
+    <div class="note-out" id="mgResNote" hidden></div>
+    <p class="res-line" id="mgResLine"></p>
+    <div class="row">
+      <button class="btn" id="mgResAgain">ЕЩЁ РАЗ</button>
+      <button class="btn btn-primary" id="mgResBack">ЧИТАТЬ ГЛАВУ</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal lockdown mg-break" id="mgBreak" role="alertdialog" aria-modal="true" aria-labelledby="mgBreakTitle" tabindex="-1" hidden>
+  <div class="lock-stripes" aria-hidden="true"></div>
+  <h2 class="lock-title" id="mgBreakTitle">НОСИТЕЛЬ РАЗРУШЕН</h2>
+  <p class="lock-sub">ИЗНОС 100%. НЕЙРОСЛЕПОК НЕ ПОДЛЕЖИТ ВОССТАНОВЛЕНИЮ.<br>ЦИКЛ ПРЕРВАН.</p>
+  <p class="lock-sub" id="mgBreakNext" style="color:#fff">К-48. ПОДЪЁМ.</p>
+  <button class="btn btn-primary" id="mgBreakOk" style="position:relative">ПРИНЯТЬ</button>
+</div>
+
+<!-- ======================= КЛОН УНИЧТОЖЕН ======================= -->
+<div class="death-screen" id="deathScreen" hidden role="alert" aria-live="assertive">
+  <canvas class="ds-canvas" id="dsCanvas" aria-hidden="true"></canvas>
+  <div class="ds-text">
+    <p class="ds-title" id="dsTitle">КЛОН УНИЧТОЖЕН</p>
+    <p class="ds-sub" id="dsSub"></p>
+    <p class="ds-next" id="dsNext"></p>
+  </div>
+</div>
 
 <!-- ======================= ОБЩИЕ СЛОИ ======================= -->
 <div class="modal confirm" id="confirmModal" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmText" tabindex="-1" hidden>
