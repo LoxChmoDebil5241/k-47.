@@ -62,6 +62,7 @@ const Splash = (() => {
    * Нарисовать заставку. t — секунды; opts.text — рисовать ли надписи; opts.fade 0…1.
    */
   function draw(g, W, H, t, { text = true, count = 7, fade = 1 } = {}) {
+    if (W < 2 || H < 2) return;            // холст скрыт — рисовать некуда
     const s = Math.min(W / BASE, H / BASE) * (W < H ? 1.25 : 1.02);
     const ox = (W - BASE * s) / 2, oy = (H - BASE * s) / 2 + (W < H ? H * 0.02 : 0);
     const key = `${W}x${H}`;
@@ -134,7 +135,11 @@ const Splash = (() => {
     const frame = now => {
       if (!alive) return;
       const dt = Math.min(0.1, (now - last) / 1000); last = now; acc += dt;
-      if (acc >= 1 / 30 && !document.body.classList.contains('paused')) { t += acc; acc = 0; draw(g, cv.clientWidth, cv.clientHeight, t, opts); }
+      if (acc >= 1 / 30 && !document.body.classList.contains('paused')) {
+        t += acc; acc = 0;
+        if (cv.width !== Math.round(cv.clientWidth * Math.min(1.5, window.devicePixelRatio || 1))) fit();   // стал видимым без resize
+        draw(g, cv.clientWidth, cv.clientHeight, t, opts);
+      }
       raf = requestAnimationFrame(frame);
     };
     raf = requestAnimationFrame(frame);
@@ -158,6 +163,7 @@ const DeathScreen = (() => {
       if (!alive) return;
       t += Math.min(0.1, (now - last) / 1000); last = now;
       const W = cv.clientWidth, H = cv.clientHeight;
+      if (W < 2 || H < 2) { requestAnimationFrame(frame); return; }
       g.fillStyle = '#000'; g.fillRect(0, 0, W, H);
       const s = Math.min(W, H) * 0.62;
       Art.skull(g, W / 2 + (Math.random() < 0.05 ? (Math.random() - 0.5) * 14 : 0), H * 0.4, s, { t });

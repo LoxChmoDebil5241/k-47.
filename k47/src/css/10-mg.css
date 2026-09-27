@@ -65,14 +65,14 @@
 /* ==========================================================================
    СЦЕНА МИНИ-ИГРЫ
    ========================================================================== */
-.mg-stage { position: fixed; inset: 0; z-index: 500; display: flex; flex-direction: column; background: #050002; animation: fadeIn .4s var(--ease-out); }
+.mg-stage { position: fixed; inset: 0; z-index: 500; display: flex; flex-direction: column; user-select: none; -webkit-user-select: none; background: #050002; animation: fadeIn .4s var(--ease-out); }
 .mg-top {
   position: relative; z-index: 20; flex-shrink: 0; display: flex; align-items: center; gap: 10px;
   padding: max(10px, env(safe-area-inset-top)) calc(66px + env(safe-area-inset-right)) 8px max(12px, env(safe-area-inset-left));
   border-bottom: 1px solid rgba(255, 0, 51, .22); background: linear-gradient(180deg, rgba(20, 0, 5, .96), rgba(20, 0, 5, .72));
 }
 .mg-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--f-mono); font-size: .8rem; letter-spacing: .16em; color: #ff6b80; }
-.mg-stat { font-family: var(--f-mono); font-size: .72rem; letter-spacing: .12em; color: #ffb3bf; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.mg-stat { font-family: var(--f-mono); font-size: .72rem; letter-spacing: .12em; color: #ffb3bf; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .mg-body { position: relative; flex: 1; min-height: 0; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; }
 .mg-hint {
   position: relative; z-index: 20; flex-shrink: 0; margin: 0; padding: .55rem 14px max(.6rem, env(safe-area-inset-bottom));

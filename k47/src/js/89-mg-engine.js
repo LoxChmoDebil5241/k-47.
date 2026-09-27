@@ -230,7 +230,7 @@ const Frag = (() => {
         const again = await showResult(F, r);
         if (st().wear >= 100) {
           await carrierBreak();
-          cloneDestroyed({ title: 'НОСИТЕЛЬ РАЗРУШЕН', sub: 'ИЗНОС 100% · НЕЙРОСЛЕПОК УТЕРЯН' });
+          cloneDestroyed({ sub: 'НОСИТЕЛЬ РАЗРУШЕН · ИЗНОС 100%' });
           return 'dead';
         }
         if (!again) break;
@@ -258,4 +258,7 @@ window.__k47 = {
   finish: ok => Frag.debugFinish(ok),
   /** запустить игру главы i отдельно (отладка): __k47.play(7) */
   play: i => Frag.run(i, { replay: true }),
+  /** для автотестов: перейти в сцену и прочитать состояние */
+  act: (name, opts) => startAct(name, opts),
+  state: () => GameState,
 };
