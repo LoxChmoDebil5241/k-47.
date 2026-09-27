@@ -1,0 +1,78 @@
+/* ==========================================================================
+   ЗАСТАВКА (реф. 3): огромный красный визор, семь силуэтов, «-И ДАЛЬШЕ БЕЗ СЧЁТА»
+   ========================================================================== */
+.boot { background: #000; cursor: pointer; z-index: 50; }
+.boot canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.boot-ui { position: absolute; left: 0; right: 0; bottom: calc(5vh + var(--sab)); display: flex; flex-direction: column; align-items: center; gap: .8rem; padding: 0 16px; z-index: 2; }
+.boot-hint { font: .72rem var(--f-mono); letter-spacing: .32em; color: rgba(239, 230, 207, .7); text-transform: uppercase; animation: blink 2.4s steps(2) infinite; text-align: center; }
+@keyframes blink { 50% { opacity: .25; } }
+.boot-actions { display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; }
+.boot.gone { animation: bootOut 1s var(--ease) forwards; }
+@keyframes bootOut { to { opacity: 0; filter: blur(6px) brightness(2); } }
+.boot-meta { position: absolute; top: calc(12px + var(--sat)); left: calc(14px + var(--sal)); font: .66rem var(--f-mono); letter-spacing: .2em; color: rgba(239, 230, 207, .35); z-index: 2; }
+
+/* ==========================================================================
+   БЛАНК ДОГОВОРА — синий неон, текст живёт, подпись кровью
+   ========================================================================== */
+.act-contract { background: radial-gradient(ellipse at 50% 40%, #07131c 0%, #020508 70%); }
+.contract-bg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .9; }
+.sheet {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: min(760px, calc(100% - 24px)); height: min(900px, calc(100dvh - 24px - var(--sat) - var(--sab)));
+  display: flex; flex-direction: column;
+  background: linear-gradient(180deg, rgba(4, 16, 26, .92), rgba(2, 8, 14, .95));
+  border: 1px solid rgba(136, 221, 255, .38);
+  box-shadow: 0 0 0 1px #000, 0 0 40px rgba(74, 168, 216, .25), inset 0 0 60px rgba(0, 0, 0, .7);
+  color: var(--ice); font-family: var(--f-mono);
+}
+.sheet::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(136, 221, 255, .035) 0 1px, transparent 1px 3px); }
+.sheet-head { padding: 1rem 1.1rem .7rem; border-bottom: 1px solid rgba(136, 221, 255, .22); text-align: center; }
+.sheet-head h1 { margin: 0 0 .35rem; font: .78rem/1.5 var(--f-pixel); color: #bfeaff; text-shadow: var(--glow-ice); }
+.sheet-head p { margin: 0; font-size: .72rem; letter-spacing: .12em; color: rgba(136, 221, 255, .65); }
+.sheet-body { position: relative; flex: 1; overflow: hidden; }
+.clauses { position: absolute; inset: 0; overflow: hidden; padding: 0 1.1rem; mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent); -webkit-mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent); }
+.clauses p { margin: .8rem 0; font-size: .84rem; line-height: 1.55; color: rgba(160, 225, 255, .78); transition: filter .8s, opacity .8s, transform .8s; }
+.clauses p.blur { filter: blur(2.2px); opacity: .55; }
+.clauses p.shake { animation: shakeSm .3s linear infinite; }
+.clauses p.sharp { color: #eaffff; text-shadow: var(--glow-ice); }
+.clauses p.dim { opacity: .25; }
+.clauses p.drift { transform: translateX(12px) skewX(-3deg); }
+.clauses p.cl-47 { color: #ff8095; text-shadow: 0 0 8px rgba(255, 0, 51, .5); }
+.clauses p.cl-num { font-family: var(--f-pixel); font-size: .6rem; line-height: 1.7; color: #bfeaff; }
+.clauses .w.glitch { color: #ff3355; text-shadow: 0 0 6px rgba(255, 0, 51, .8); }
+.thoughts { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.drift-thought { position: absolute; left: 0; top: 0; white-space: nowrap; font: italic 1.05rem var(--f-book); text-shadow: 0 0 10px rgba(136, 221, 255, .6); will-change: transform, opacity; }
+.drift-thought.child { font-family: var(--f-mono); font-style: normal; font-size: .9rem; color: #ffd0d8 !important; text-shadow: 0 0 10px rgba(255, 60, 90, .55); }
+.drift-thought.final { font: 700 1.6rem var(--f-disp); letter-spacing: .2em; color: #ff1a3c !important; text-shadow: var(--glow), var(--chroma); }
+.sheet-foot { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem 1rem; padding: .8rem 1.1rem calc(.9rem + var(--sab)); border-top: 1px solid rgba(136, 221, 255, .22); position: relative; }
+.sign-block { font-size: .72rem; letter-spacing: .06em; min-width: 0; }
+.sign-block .lbl { color: rgba(136, 221, 255, .55); text-transform: uppercase; letter-spacing: .12em; }
+.sign-block .who { position: relative; margin: .2rem 0; font-size: .86rem; color: #d8f3ff; min-height: 1.6em; }
+.sign-block .who .name { transition: opacity 1.2s; }
+.sign-block .who.struck .name { opacity: .75; }
+.blood-canvas { position: absolute; left: -10px; top: -40px; width: calc(100% + 60px); height: calc(100% + 60px); pointer-events: none; }
+.sig-row { display: flex; align-items: center; gap: .5rem; color: rgba(136, 221, 255, .6); }
+.sig-canvas { width: 150px; height: 34px; border-bottom: 1px solid rgba(136, 221, 255, .4); }
+.contract-actions { grid-column: 1 / -1; display: flex; justify-content: center; gap: .8rem; flex-wrap: wrap; }
+.stamp {
+  position: absolute; right: 8%; bottom: 18%; padding: .6rem 1rem; transform: rotate(-12deg) scale(2.2); opacity: 0;
+  border: 4px double #ff1a3c; color: #ff1a3c; font: 700 1.1rem/1.2 var(--f-disp); letter-spacing: .12em; text-align: center; mix-blend-mode: screen;
+  text-shadow: 0 0 10px rgba(255, 0, 51, .6); pointer-events: none;
+}
+.stamp.on { animation: stampIn .5s cubic-bezier(.2, 1.6, .4, 1) forwards; }
+@keyframes stampIn { to { opacity: .92; transform: rotate(-12deg) scale(1); } }
+.act-contract.signed .clauses { filter: blur(1px) brightness(.7); }
+@media (max-width: 560px) {
+  .sheet-foot { grid-template-columns: 1fr; }
+  .sig-canvas { width: 120px; }
+  .drift-thought { font-size: .92rem; }
+}
+
+/* ---------- отказ: взгляд поднимается от бланка ---------- */
+.gaze { position: absolute; inset: 0; z-index: 5; background: #000; opacity: 0; transition: opacity 1.4s var(--ease); }
+.gaze.on { opacity: 1; }
+.gaze canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.gaze.close { animation: gazeClose 1.2s var(--ease) forwards; }
+@keyframes gazeClose { 0% { clip-path: inset(0 0 0 0); } 100% { clip-path: inset(50% 0 50% 0); } }
+.gaze-line { position: absolute; left: 50%; bottom: calc(16% + var(--sab)); transform: translate(-50%, 10px); max-width: min(620px, 92%); text-align: center; font: 1.2rem/1.4 var(--f-book); color: #f2f2f2; opacity: 0; transition: opacity .4s, transform .4s var(--ease); text-shadow: 0 2px 10px #000; }
+.gaze-line.show { opacity: 1; transform: translate(-50%, 0); }
