@@ -1,0 +1,7 @@
+{
+  "appId": "ru.k47.cycle48",
+  "appName": "К-47",
+  "webDir": "www",
+  "backgroundColor": "#0a0a0a",
+  "android": { "allowMixedContent": false }
+}

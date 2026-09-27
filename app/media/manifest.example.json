@@ -1,0 +1,15 @@
+{
+  "sfx": {
+    "click": "audio/sfx/click.ogg",
+    "shot": { "file": "audio/sfx/shot.ogg", "volume": 0.9 },
+    "step": { "variants": ["audio/sfx/step1.ogg", "audio/sfx/step2.ogg"], "volume": 0.5 }
+  },
+  "ambient": {
+    "office": { "file": "audio/ambient/office.ogg", "volume": 0.5 },
+    "room": "audio/ambient/room.ogg"
+  },
+  "backgrounds": {
+    "contract": { "file": "img/bg/contract.jpg", "opacity": 0.35, "blend": "screen" },
+    "psych": "img/bg/psych.jpg"
+  }
+}

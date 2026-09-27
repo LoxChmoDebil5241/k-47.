@@ -1,0 +1,25 @@
+name: Android APK
+on:
+  push:
+    paths: ['app/**', 'К-47*.html', '.github/workflows/android.yml']
+  workflow_dispatch:
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: app } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 21 }
+      - uses: android-actions/setup-android@v3
+      - run: npm ci || npm install
+      - run: npm run build
+      - run: '[ -d android ] || npx cap add android'
+      - run: npx cap sync android
+      - run: cd android && chmod +x gradlew && ./gradlew assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: k47-debug-apk
+          path: app/android/app/build/outputs/apk/debug/*.apk
