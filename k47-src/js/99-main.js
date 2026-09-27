@@ -20,7 +20,14 @@
   // вкладка скрыта — ставим на паузу (не для заставки)
   document.addEventListener('visibilitychange', () => { if (document.hidden && actName && !Game.paused && !Modal.isOpen() && !$('#menuBtn').hidden) Menu.open(); });
   window.addEventListener('pagehide', () => { if (actName && actName !== 'read') Save.put(); Notebook.save(); });
+  // старый сервис-воркер OBJ-4471 отдавал всё из кэша — снимаем его, чтобы не подсовывал устаревшие файлы
+  try {
+    if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+      navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => { const w = r.active || r.waiting || r.installing; if (w && /\/sw\.js$/.test(w.scriptURL)) r.unregister(); })).catch(() => {});
+      if (window.caches) caches.keys().then(ks => ks.filter(k => k.startsWith('obj4471')).forEach(k => caches.delete(k))).catch(() => {});
+    }
+  } catch { /* */ }
   showBoot();
   // для проверки из консоли: __k47.play(номер главы 0–48)
-  window.__k47 = { G, GAMES, play: i => Fragment.play(i), run: i => Fragment.run(i), startAct, Save, Settings, BOOK };
+  window.__k47 = { get G() { return G; }, GAMES, play: i => Fragment.play(i), run: i => Fragment.run(i), startAct, Save, Settings, BOOK };
 })();

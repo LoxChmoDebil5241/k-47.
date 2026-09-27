@@ -5345,10 +5345,18 @@ Acts.awake = {
     fin.className = 'final';
     await scope.wait(900);
     const words = $('#finWords');
+    // тап / пробел / Enter — следующая строка (не раньше чем через 0,8 с)
+    const skippable = ms => new Promise(res => {
+      const t0 = Clock.now(); let done = false;
+      const fin = () => { if (!done) { done = true; res(); } };
+      scope.timeout(fin, ms);
+      const h = e => { if (done || Clock.now() - t0 < 800 || Modal.isOpen()) return; if (e.type === 'keydown' && e.code !== 'Space' && e.code !== 'Enter') return; fin(); };
+      scope.on(document, 'pointerdown', h); scope.on(document, 'keydown', h);
+    });
     for (const w of LAST_WORDS) {
       words.textContent = w; words.classList.remove('on'); void words.offsetWidth; words.classList.add('on');
       const last = w === 'И тьма.';
-      await scope.wait(last ? 3400 : 2200 + w.length * 45);
+      await skippable(last ? 3400 : 2200 + w.length * 45);
       words.classList.remove('on');
       await scope.wait(last ? 1600 : 900);
     }
@@ -11006,9 +11014,16 @@ function gameAfterFists(ctx) {
   // вкладка скрыта — ставим на паузу (не для заставки)
   document.addEventListener('visibilitychange', () => { if (document.hidden && actName && !Game.paused && !Modal.isOpen() && !$('#menuBtn').hidden) Menu.open(); });
   window.addEventListener('pagehide', () => { if (actName && actName !== 'read') Save.put(); Notebook.save(); });
+  // старый сервис-воркер OBJ-4471 отдавал всё из кэша — снимаем его, чтобы не подсовывал устаревшие файлы
+  try {
+    if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+      navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => { const w = r.active || r.waiting || r.installing; if (w && /\/sw\.js$/.test(w.scriptURL)) r.unregister(); })).catch(() => {});
+      if (window.caches) caches.keys().then(ks => ks.filter(k => k.startsWith('obj4471')).forEach(k => caches.delete(k))).catch(() => {});
+    }
+  } catch { /* */ }
   showBoot();
   // для проверки из консоли: __k47.play(номер главы 0–48)
-  window.__k47 = { G, GAMES, play: i => Fragment.play(i), run: i => Fragment.run(i), startAct, Save, Settings, BOOK };
+  window.__k47 = { get G() { return G; }, GAMES, play: i => Fragment.play(i), run: i => Fragment.run(i), startAct, Save, Settings, BOOK };
 })();
 </script>
 </body>

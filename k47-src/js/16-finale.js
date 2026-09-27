@@ -217,10 +217,18 @@ Acts.awake = {
     fin.className = 'final';
     await scope.wait(900);
     const words = $('#finWords');
+    // тап / пробел / Enter — следующая строка (не раньше чем через 0,8 с)
+    const skippable = ms => new Promise(res => {
+      const t0 = Clock.now(); let done = false;
+      const fin = () => { if (!done) { done = true; res(); } };
+      scope.timeout(fin, ms);
+      const h = e => { if (done || Clock.now() - t0 < 800 || Modal.isOpen()) return; if (e.type === 'keydown' && e.code !== 'Space' && e.code !== 'Enter') return; fin(); };
+      scope.on(document, 'pointerdown', h); scope.on(document, 'keydown', h);
+    });
     for (const w of LAST_WORDS) {
       words.textContent = w; words.classList.remove('on'); void words.offsetWidth; words.classList.add('on');
       const last = w === 'И тьма.';
-      await scope.wait(last ? 3400 : 2200 + w.length * 45);
+      await skippable(last ? 3400 : 2200 + w.length * 45);
       words.classList.remove('on');
       await scope.wait(last ? 1600 : 900);
     }
