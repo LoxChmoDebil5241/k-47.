@@ -1,0 +1,560 @@
+<body>
+
+<!-- ======================= ЗАСТАВКА: только название ======================= -->
+<div class="boot" id="boot" role="button" tabindex="0" hidden
+  aria-label="К-47. Нормы расхода плоти. Цикл-48. Нажмите любую клавишу или коснитесь экрана.">
+  <canvas class="boot-splash" id="bootSplash" aria-hidden="true"></canvas>
+  <h1 class="sr-only">К-47. Нормы расхода плоти. Цикл-48. И дальше без счёта.</h1>
+  <p class="boot-press" id="bootPress" aria-hidden="true">▮ ЛЮБАЯ КЛАВИША · КАСАНИЕ</p>
+  <div class="boot-actions" id="bootActions" hidden>
+    <button class="btn btn-primary" id="bootContinue">ПРОДОЛЖИТЬ</button>
+    <button class="btn" id="bootRestart">НАЧАТЬ СНАЧАЛА</button>
+  </div>
+</div>
+
+<!-- ======================= БЛАНК ======================= -->
+<section class="act act-contract" id="act-contract" hidden aria-label="Бланк трудового договора">
+  <canvas class="contract-bg" id="contractBg" aria-hidden="true"></canvas>
+  <article class="sheet" aria-labelledby="contractTitle">
+    <header class="sheet-head">
+      <h1 class="pixel" id="contractTitle">ТРУДОВОЙ ДОГОВОР № КД-2999/15</h1>
+      <p>г. Новая Земля-7 │ 2999 год, 15 апреля │ 11:20 по местному времени</p>
+    </header>
+    <div class="sheet-body">
+      <div class="clauses" id="contractClauses" aria-hidden="true"></div>
+      <div class="thoughts" id="contractThoughts" aria-hidden="true"></div>
+    </div>
+    <footer class="sheet-foot">
+      <div class="sign-block">
+        <div class="lbl">Работодатель: корпорация Vitezstvi</div>
+        <div class="who">Ибрагим Захаев, директор департамента кадров</div>
+        <div class="sig-row"><span>подпись:</span><span>______________</span></div>
+      </div>
+      <div class="sign-block">
+        <div class="lbl">Кандидат на должность</div>
+        <div class="who cand" id="candidate"><span class="name" id="candName">Комаров Кристиан</span><span class="sr-only k0">К-0</span><canvas class="blood-canvas" id="bloodCanvas" aria-hidden="true"></canvas></div>
+        <div class="sig-row"><span>подпись:</span><canvas class="sig-canvas" id="sigCanvas" aria-label="Поле подписи"></canvas></div>
+      </div>
+      <div class="contract-actions">
+        <button class="btn btn-ice" id="refuseBtn" aria-label="Отказаться от договора">Отказаться</button>
+        <button class="btn btn-ice" id="signBtn" aria-label="Подписать договор">Подписать</button>
+      </div>
+    </footer>
+    <div class="stamp" id="stamp" aria-hidden="true">АКТИВ К-0<br>ЗАРЕГИСТРИРОВАН</div>
+  </article>
+
+  <!-- отказ: взгляд поднимается от бланка -->
+  <div class="gaze" id="gaze" hidden>
+    <div class="gaze-view">
+      <svg class="gaze-room" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <linearGradient id="gzWall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3e4144"/><stop offset=".7" stop-color="#2c2e31"/><stop offset="1" stop-color="#222427"/></linearGradient>
+          <linearGradient id="gzLeather" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#171210"/><stop offset=".5" stop-color="#2a201b"/><stop offset="1" stop-color="#151110"/></linearGradient>
+          <radialGradient id="gzLamp" cx="800" cy="10" r="760" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#eef3f6" stop-opacity=".42"/><stop offset="1" stop-color="#eef3f6" stop-opacity="0"/></radialGradient>
+          <linearGradient id="gzSteel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a3a9ae"/><stop offset=".35" stop-color="#7e858b"/><stop offset="1" stop-color="#4c5156"/></linearGradient>
+          <linearGradient id="gzSheen" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".16"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+          <radialGradient id="gzVig" cx="50%" cy="45%" r="75%"><stop offset=".45" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".82"/></radialGradient>
+        </defs>
+        <rect width="1600" height="900" fill="url(#gzWall)"/>
+        <g stroke="#1f2123" stroke-width="3" opacity=".8"><line x1="230" y1="0" x2="230" y2="700"/><line x1="560" y1="0" x2="560" y2="700"/><line x1="1060" y1="0" x2="1060" y2="700"/><line x1="1390" y1="0" x2="1390" y2="700"/></g>
+        <rect y="690" width="1600" height="14" fill="#2b2d30"/>
+        <rect y="704" width="1600" height="196" fill="#26282b"/>
+        <g class="gz-cabinet">
+          <rect x="80" y="230" width="250" height="470" fill="#2a2522"/><rect x="92" y="244" width="226" height="200" fill="#1a1715"/>
+          <g fill="#3b332c"><rect x="92" y="330" width="226" height="8"/><rect x="92" y="444" width="226" height="10"/></g>
+          <g><rect x="102" y="262" width="16" height="66" fill="#4a3b30"/><rect x="120" y="266" width="14" height="62" fill="#3a3f47"/><rect x="136" y="260" width="18" height="68" fill="#51402e"/><rect x="170" y="270" width="14" height="58" fill="#393633"/><rect x="186" y="262" width="16" height="66" fill="#473026"/>
+            <rect x="104" y="350" width="18" height="76" fill="#3a3f47"/><rect x="124" y="356" width="16" height="70" fill="#4a3b30"/><rect x="142" y="352" width="14" height="74" fill="#2f3436"/><rect x="230" y="358" width="60" height="68" fill="#2b2622" transform="rotate(-8 260 392)"/></g>
+          <g stroke="#1a1614" stroke-width="3"><line x1="80" y1="560" x2="330" y2="560"/><line x1="205" y1="454" x2="205" y2="700"/></g>
+          <g fill="#6d6259"><rect x="186" y="500" width="8" height="30" rx="2"/><rect x="216" y="500" width="8" height="30" rx="2"/><rect x="186" y="610" width="8" height="30" rx="2"/><rect x="216" y="610" width="8" height="30" rx="2"/></g>
+        </g>
+        <g class="gz-cabinet">
+          <rect x="1250" y="170" width="260" height="530" fill="#2b2724"/><rect x="1264" y="184" width="232" height="300" fill="#141312"/>
+          <rect x="1264" y="184" width="232" height="300" fill="#8fa3ad" fill-opacity=".07"/>
+          <g fill="#3b332c"><rect x="1264" y="280" width="232" height="8"/><rect x="1264" y="380" width="232" height="8"/></g>
+          <g><rect x="1276" y="206" width="30" height="72" fill="#3a3f47"/><rect x="1308" y="210" width="30" height="68" fill="#353230"/><rect x="1340" y="206" width="30" height="72" fill="#3a3f47"/><rect x="1400" y="214" width="26" height="64" fill="#4a3b30"/>
+            <rect x="1276" y="304" width="30" height="74" fill="#2f3436"/><rect x="1308" y="300" width="30" height="78" fill="#3a3f47"/><rect x="1440" y="306" width="40" height="72" fill="#322c28"/>
+            <rect x="1280" y="404" width="80" height="74" fill="#2b2622"/><rect x="1380" y="400" width="30" height="78" fill="#3a3f47"/></g>
+          <line x1="1380" y1="184" x2="1380" y2="484" stroke="#2b2724" stroke-width="4"/>
+          <g stroke="#1a1614" stroke-width="3"><line x1="1250" y1="590" x2="1510" y2="590"/></g>
+        </g>
+        <g class="gz-clock"><circle cx="820" cy="130" r="40" fill="#b9bdc0" fill-opacity=".25" stroke="#1a1c1e" stroke-width="7"/><line x1="820" y1="130" x2="820" y2="103" stroke="#131416" stroke-width="5"/><line x1="820" y1="130" x2="840" y2="140" stroke="#131416" stroke-width="4"/></g>
+        <g class="gz-lamp"><rect width="1600" height="900" fill="url(#gzLamp)" opacity=".7"/><rect x="620" y="0" width="360" height="16" fill="#e9eef1" opacity=".75"/></g>
+
+        <!-- тот, что в очках: волосы зачёсаны назад -->
+        <g class="gz-fig" id="gzThin" transform="translate(610 0)">
+          <g class="gz-body">
+            <path d="M-122 430 C-120 368 -84 344 -30 336 L30 336 C84 344 120 368 122 430 L136 900 L-136 900 Z" fill="#1c1d20"/>
+            <path d="M-30 336 L0 430 L30 336" fill="none" stroke="#35383c" stroke-width="5"/>
+            <path d="M-54 344 L-22 520 M54 344 L22 520" stroke="#2d3034" stroke-width="4"/>
+            <path d="M-122 430 C-146 520 -150 620 -142 700 L-108 700 C-112 610 -104 520 -92 460 Z M122 430 C146 520 150 620 142 700 L108 700 C112 610 104 520 92 460 Z" fill="#17181a"/>
+            <rect x="-18" y="300" width="36" height="42" fill="#141517"/>
+          </g>
+          <g class="gz-head">
+            <ellipse cx="-54" cy="258" rx="9" ry="15" fill="#141517"/><ellipse cx="54" cy="258" rx="9" ry="15" fill="#141517"/>
+            <ellipse cx="0" cy="252" rx="54" ry="66" fill="#17181a"/>
+            <path class="gz-hair" d="M-56.4 234.5 L-58.8 224.2 L-51.9 218.0 L-51.6 207.7 L-44.1 203.4 L-41.8 193.4 L-32.9 192.7 L-29.4 182.5 L-20.5 184.6 L-14.8 177.5 L-7.1 179.8 L-0.0 170.4 L7.1 179.2 L15.3 175.1 L21.3 182.3 L30.4 180.1 L33.6 191.5 L41.3 194.1 L44.1 203.4 L51.6 207.7 L52.9 217.4 L57.0 225.0 L56.5 234.5 L51.7 247.3 L49.9 242.5 L47.4 238.2 L44.1 235.6 L40.2 228.9 L35.6 229.4 L30.5 227.1 L25.0 219.5 L19.1 219.4 L12.9 218.3 L6.5 217.6 L-0.0 218.2 L-6.5 216.8 L-12.9 220.0 L-19.1 222.7 L-25.0 224.8 L-30.5 226.6 L-35.6 225.6 L-40.2 232.0 L-44.1 235.7 L-47.4 238.5 L-49.9 242.9 L-51.7 244.9 Z" fill="#9a9ea1"/>
+            <path d="M-50.9 216.0 L-57.4 215.3 M-26.3 186.7 L-30.0 179.2 M7.5 179.6 L9.3 168.0 M38.6 197.1 L43.0 192.7 M53.6 222.9 L61.3 222.9" stroke="#b3b6b8" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <path d="M-40 206 C-22 192 6 188 34 196 M-48 222 C-30 208 12 202 46 216" stroke="#7d8184" stroke-width="2" fill="none" opacity=".7"/>
+            <g class="gz-glasses">
+              <rect x="-46" y="240" width="38" height="25" rx="8" fill="#c9d6e0" fill-opacity=".38" stroke="#050506" stroke-width="4"/>
+              <rect x="8" y="240" width="38" height="25" rx="8" fill="#c9d6e0" fill-opacity=".38" stroke="#050506" stroke-width="4"/>
+              <path d="M-8 250 L8 250 M-46 248 L-56 244 M46 248 L56 244" stroke="#050506" stroke-width="4"/>
+              <path class="gz-glint" d="M-38 246 L-26 258 M16 246 L28 258" stroke="#f2f7fb" stroke-width="3" stroke-linecap="round"/>
+            </g>
+          </g>
+        </g>
+
+        <!-- толстый, грузный -->
+        <g class="gz-fig" id="gzFat" transform="translate(1040 0)">
+          <!-- кожаное кресло за ним -->
+          <g class="gz-chair">
+            <path d="M-250 700 L-250 290 C-250 236 -210 214 -150 210 L150 210 C210 214 250 236 250 290 L250 700 Z" fill="url(#gzLeather)"/>
+            <g stroke="#0f0c0b" stroke-width="3" opacity=".8"><path d="M-160 240 L-160 680 M-80 226 L-80 680 M0 222 L0 680 M80 226 L80 680 M160 240 L160 680"/><path d="M-240 340 L240 340 M-240 460 L240 460"/></g>
+            <rect x="-300" y="560" width="70" height="150" rx="16" fill="#1b1614"/><rect x="230" y="560" width="70" height="150" rx="16" fill="#1b1614"/>
+          </g>
+          <g transform="translate(0 92)">
+          <g class="gz-body">
+            <path d="M-214 480 C-208 386 -124 350 -44 344 L44 344 C124 350 208 386 214 480 C244 570 254 650 246 900 L-246 900 C-254 650 -244 570 -214 480 Z" fill="#151619"/>
+            <ellipse cx="0" cy="650" rx="222" ry="178" fill="#17181b"/>
+            <path d="M-10 356 L10 356 L22 560 L0 596 L-22 560 Z" fill="#2c0b0e"/>
+            <path d="M-40 348 L0 380 L40 348" fill="none" stroke="#2a2c30" stroke-width="5"/>
+            <path d="M-208 460 C-258 530 -270 630 -258 700 L-214 700 C-222 626 -210 548 -182 490 Z M208 460 C258 530 270 630 258 700 L214 700 C222 626 210 548 182 490 Z" fill="#121315"/>
+          </g>
+          <g class="gz-head">
+            <ellipse cx="0" cy="332" rx="66" ry="32" fill="#131416"/>
+            <ellipse cx="-70" cy="270" rx="10" ry="17" fill="#121315"/><ellipse cx="70" cy="270" rx="10" ry="17" fill="#121315"/>
+            <ellipse cx="0" cy="266" rx="72" ry="76" fill="#141517"/>
+            <path d="M-70 244 C-64 196 -24 182 8 184 C50 186 74 208 72 248 C60 228 32 218 0 218 C-32 218 -56 228 -70 244 Z" fill="#0a0a0b"/>
+            <path d="M-48 206 C-20 196 20 196 50 210 M-58 222 C-26 210 22 210 60 226" stroke="#34363a" stroke-width="2.5" fill="none" opacity=".8"/>
+          </g>
+          </g>
+        </g>
+
+        <!-- свой стол: офисный металлический -->
+        <g class="gz-desk">
+          <polygon points="130,690 1470,690 1780,900 -180,900" fill="url(#gzSteel)"/>
+          <polygon points="130,690 1470,690 1520,724 80,724" fill="url(#gzSheen)"/>
+          <line x1="130" y1="690" x2="1470" y2="690" stroke="#c6cbcf" stroke-width="3"/>
+          <g stroke="#fff" stroke-opacity=".07" stroke-width="2"><line x1="300" y1="760" x2="520" y2="752"/><line x1="1080" y1="820" x2="1320" y2="806"/><line x1="200" y1="850" x2="330" y2="846"/></g>
+          <polygon points="680,746 930,746 962,884 650,884" fill="#c9d1d6" fill-opacity=".88"/>
+          <g stroke="#7f8a91" stroke-width="3"><line x1="704" y1="770" x2="904" y2="770"/><line x1="700" y1="790" x2="910" y2="790"/><line x1="696" y1="810" x2="870" y2="810"/><line x1="692" y1="830" x2="918" y2="830"/></g>
+          <path d="M760 858 C790 846 800 866 830 852" stroke="#1c3c66" stroke-width="3" fill="none"/>
+          <line x1="990" y1="808" x2="1120" y2="778" stroke="#111214" stroke-width="10" stroke-linecap="round"/>
+        </g>
+        <rect width="1600" height="900" fill="#000" opacity=".22"/>
+        <rect width="1600" height="900" fill="url(#gzVig)"/>
+      </svg>
+    </div>
+    <p class="gaze-line" id="gazeLine" role="status" aria-live="assertive"></p>
+    <div class="gaze-lids" aria-hidden="true"><i></i><i></i></div>
+  </div>
+</section>
+
+<!-- ======================= КОМНАТА ======================= -->
+<section class="act act-room" id="act-room" hidden aria-label="Комната с терминалом">
+  <div class="room-view" id="roomView"></div>
+  <div class="room-vignette" id="roomVignette" aria-hidden="true"></div>
+  <div class="room-thoughts" id="roomThoughts" aria-hidden="true"></div>
+  <div class="room-crawl" id="roomCrawl" aria-hidden="true"></div>
+  <div class="door-talk" id="doorTalk" hidden>
+    <p class="door-line" id="doorLine" aria-live="assertive"></p>
+    <div class="door-choices" id="doorChoices"></div>
+  </div>
+  <div class="room-speech" id="roomSpeech" aria-live="assertive"></div>
+  <p class="look-hint" id="lookHint" aria-hidden="true">ЗАЖМИ И ВЕДИ — ОСМОТРЕТЬСЯ</p>
+
+  <nav class="room-bars" aria-label="Перемещение по комнате">
+    <div class="room-bar" data-bar="outside" hidden>
+      <div class="bar-row">
+        <button class="btn" data-go="wall" aria-label="Повернуться налево, к стене с фотографиями (стрелка влево)">◀ К СТЕНЕ</button>
+        <button class="btn" data-go="turn" aria-label="Обернуться к двери (стрелка вниз)">ОБЕРНУТЬСЯ</button>
+        <button class="btn" data-go="desk" aria-label="Повернуться направо, к столу (стрелка вправо)">К СТОЛУ ▶</button>
+      </div>
+      <button class="btn btn-primary btn-enter" data-go="enter" aria-label="Войти в терминал (стрелка вверх)">ВОЙТИ В ТЕРМИНАЛ</button>
+    </div>
+    <div class="room-bar" data-bar="wall" hidden>
+      <div class="bar-row">
+        <button class="btn btn-primary" data-go="wallClose" aria-label="Подойти к стене (стрелка вверх)">ПОДОЙТИ</button>
+        <button class="btn" data-go="outside" aria-label="Вернуться к терминалу (стрелка вниз)">К ТЕРМИНАЛУ</button>
+      </div>
+    </div>
+    <div class="room-bar" data-bar="wallClose" hidden>
+      <p class="bar-hint">ТАП — ВЫБРАТЬ ФОТО И СОЕДИНИТЬ НИТЬЮ · УДЕРЖИВАЙ — РАССМОТРЕТЬ</p>
+      <div class="bar-row">
+        <button class="btn" data-go="clearLinks" aria-label="Снять все нити">СНЯТЬ ВСЁ</button>
+        <button class="btn" data-go="wallBack" aria-label="Отойти от стены (стрелка вниз)">ОТОЙТИ</button>
+      </div>
+    </div>
+    <div class="room-bar" data-bar="desk" hidden>
+      <div class="bar-row">
+        <button class="btn btn-primary" data-go="deskClose" aria-label="Подойти к столу (стрелка вверх)">ПОДОЙТИ К СТОЛУ</button>
+        <button class="btn" data-go="outside" aria-label="Вернуться к терминалу (стрелка вниз)">К ТЕРМИНАЛУ</button>
+      </div>
+    </div>
+    <div class="room-bar" data-bar="deskClose" hidden>
+      <p class="bar-hint">НАЖМИ НА ПРЕДМЕТ НА СТОЛЕ</p>
+      <div class="bar-row bar-items">
+        <button class="btn" data-go="notebook" aria-label="Открыть блокнот (N)">БЛОКНОТ</button>
+        <button class="btn" data-go="drawer" aria-label="Открыть ящик стола">ЯЩИК</button>
+        <button class="btn" data-go="photo" aria-label="Рассмотреть фото в рамке">ФОТО</button>
+        <button class="btn" data-go="radio" aria-label="Включить рацию">РАЦИЯ</button>
+        <button class="btn" data-go="note" aria-label="Рассмотреть записку">ЗАПИСКА</button>
+      </div>
+      <div class="bar-row"><button class="btn" data-go="deskBack" aria-label="Отойти от стола (стрелка вниз)">ОТОЙТИ</button></div>
+    </div>
+    <div class="room-bar" data-bar="facing" hidden>
+      <div class="bar-row"><button class="btn" data-go="outside" aria-label="Повернуться к терминалу">К ТЕРМИНАЛУ</button></div>
+    </div>
+  </nav>
+
+  <div class="room-freeze" id="roomFreeze" aria-hidden="true"><i class="g2"></i><i class="g1"></i><i class="g3"></i></div>
+  <div class="term-flash" id="termFlash" aria-hidden="true"></div>
+
+  <!-- ===== внутри терминала ===== -->
+  <div class="term-ui" id="termUI" hidden role="region" aria-label="Терминал OBJ-4471">
+    <div class="term-top">
+      <span class="term-status"><i class="dot" aria-hidden="true"></i>СИСТЕМА: OBJ-4471 // АКТИВНА</span>
+      <span class="term-clock" id="termClock">--:--:--</span>
+    </div>
+    <aside class="term-panel term-tele" aria-label="Телеметрия">
+      <h3 class="label">Телеметрия</h3>
+      <div class="row"><span>Целостность</span><span id="tv1">98%</span></div><div class="bar"><i id="tb1"></i></div>
+      <div class="row"><span>Сигнал</span><span id="tv2">74%</span></div><div class="bar"><i id="tb2"></i></div>
+      <div class="row"><span>Энергия</span><span id="tv3">61%</span></div><div class="bar"><i id="tb3"></i></div>
+      <div class="row"><span>Помехи</span><span id="tv4">12%</span></div><div class="bar"><i id="tb4"></i></div>
+    </aside>
+    <section class="term-center" id="termMain">
+      <div class="tc-scan" aria-hidden="true"><i></i></div>
+      <p class="tc-title">АРХИВ // К-47</p>
+      <p class="tc-sub">НОРМЫ РАСХОДА ПЛОТИ · ЦИКЛ 48</p>
+      <dl class="tc-stats">
+        <div><dt>ГЛАВ</dt><dd id="tcTotal">49</dd></div>
+        <div><dt>ПРОЧИТАНО</dt><dd id="tcRead">0</dd></div>
+        <div><dt>НОРМА</dt><dd id="tcNorm">0 / 47</dd></div>
+        <div><dt>ФРАГМЕНТЫ</dt><dd id="tcFrag">0 / 49</dd></div>
+        <div class="wear"><dt>ИЗНОС</dt><dd id="tcWear">0%</dd></div>
+      </dl>
+      <p class="tc-last" id="tcLast"></p>
+    </section>
+    <section class="term-center term-code" id="termCode" hidden tabindex="-1" aria-labelledby="codeTitle" aria-describedby="codeHint">
+      <p class="tc-title" id="codeTitle">ДОСТУП // OBJ-4471</p>
+      <p class="code-hint" id="codeHint">ВВЕДИТЕ КОД ДОСТУПА · 3 × 4 ЦИФРЫ · ТОЛЬКО ЦИФРЫ</p>
+      <div class="code-slots" id="codeSlots" aria-live="polite"><span class="grp"><i></i><i></i><i></i><i></i></span><span class="grp"><i></i><i></i><i></i><i></i></span><span class="grp"><i></i><i></i><i></i><i></i></span></div>
+      <p class="code-msg" id="codeMsg" role="status"></p>
+      <div class="kb" id="atmPad" role="group" aria-label="Клавиатура терминала">
+        <div class="kb-row"><button class="kb-key fn red" data-k="cancel" aria-label="Отмена — выйти из системы">Esc</button><button class="kb-key dig" data-k="1" aria-label="Цифра 1">1</button><button class="kb-key dig" data-k="2" aria-label="Цифра 2">2</button><button class="kb-key dig" data-k="3" aria-label="Цифра 3">3</button><button class="kb-key dig" data-k="4" aria-label="Цифра 4">4</button><button class="kb-key dig" data-k="5" aria-label="Цифра 5">5</button><button class="kb-key dig" data-k="6" aria-label="Цифра 6">6</button><button class="kb-key dig" data-k="7" aria-label="Цифра 7">7</button><button class="kb-key dig" data-k="8" aria-label="Цифра 8">8</button><button class="kb-key dig" data-k="9" aria-label="Цифра 9">9</button><button class="kb-key dig" data-k="0" aria-label="Цифра 0">0</button><button class="kb-key fn wide" data-k="back" aria-label="Стереть последнюю цифру">⌫</button></div>
+        <div class="kb-row kb-letters"><button class="kb-key fn mid" data-k="mod">Tab</button><button class="kb-key let" data-k="letter">Й</button><button class="kb-key let" data-k="letter">Ц</button><button class="kb-key let" data-k="letter">У</button><button class="kb-key let" data-k="letter">К</button><button class="kb-key let" data-k="letter">Е</button><button class="kb-key let" data-k="letter">Н</button><button class="kb-key let" data-k="letter">Г</button><button class="kb-key let" data-k="letter">Ш</button><button class="kb-key let" data-k="letter">Щ</button><button class="kb-key let" data-k="letter">З</button><button class="kb-key let" data-k="letter">Х</button><button class="kb-key let" data-k="letter">Ъ</button></div>
+        <div class="kb-row kb-letters"><button class="kb-key fn mid" data-k="mod">Caps</button><button class="kb-key let" data-k="letter">Ф</button><button class="kb-key let" data-k="letter">Ы</button><button class="kb-key let" data-k="letter">В</button><button class="kb-key let" data-k="letter">А</button><button class="kb-key let" data-k="letter">П</button><button class="kb-key let" data-k="letter">Р</button><button class="kb-key let" data-k="letter">О</button><button class="kb-key let" data-k="letter">Л</button><button class="kb-key let" data-k="letter">Д</button><button class="kb-key let" data-k="letter">Ж</button><button class="kb-key let" data-k="letter">Э</button><button class="kb-key fn wide green" data-k="enter" aria-label="Ввод">Enter</button></div>
+        <div class="kb-row kb-letters"><button class="kb-key fn wide" data-k="mod">Shift</button><button class="kb-key let" data-k="letter">Я</button><button class="kb-key let" data-k="letter">Ч</button><button class="kb-key let" data-k="letter">С</button><button class="kb-key let" data-k="letter">М</button><button class="kb-key let" data-k="letter">И</button><button class="kb-key let" data-k="letter">Т</button><button class="kb-key let" data-k="letter">Ь</button><button class="kb-key let" data-k="letter">Б</button><button class="kb-key let" data-k="letter">Ю</button><button class="kb-key let" data-k="letter">.</button><button class="kb-key fn wide" data-k="mod">Shift</button></div>
+        <div class="kb-row"><button class="kb-key fn" data-k="mod">Ctrl</button><button class="kb-key fn" data-k="mod">Alt</button><button class="kb-key space" data-k="letter" aria-label="Пробел"> </button><button class="kb-key fn yellow" data-k="clear" aria-label="Сбросить введённое">Del</button><button class="kb-key fn wide green" data-k="enter" aria-label="Ввод">Ввод ⏎</button></div>
+      </div>
+      <p class="code-foot">ЧАСТИ КОДА ОСТАВЛЕНЫ В ПОМЕЩЕНИИ · 1/3 · 2/3 · 3/3</p>
+    </section>
+    <section class="term-center term-norm" id="termNorm" hidden aria-labelledby="normStatus">
+      <p class="norm-status" id="normStatus">НОРМА РАСХОДА ПЛОТИ НЕ ДОСТИГНУТА</p>
+      <div class="norm-stage">
+        <div class="norm-victim" id="normVictim" aria-hidden="true"></div>
+        <p class="norm-villain" id="normVillain" aria-live="polite"></p>
+      </div>
+      <div class="norm-progress" id="normProgress"><i id="normFill"></i></div>
+      <p class="norm-count"><span id="normCount">0</span> / 47</p>
+      <button class="norm-btn" id="normBtn" aria-label="Нажать. Осталось 47">НАЖАТЬ<span class="norm-word" id="normWord" aria-hidden="true"></span><i class="norm-cool" id="normCool" aria-hidden="true"></i></button>
+    </section>
+    <aside class="term-panel term-journal" aria-label="Журнал">
+      <h3 class="label">Журнал</h3>
+      <div class="term-log" id="termLog" role="log" aria-live="polite"></div>
+    </aside>
+    <div class="term-actions" id="termActions">
+      <button class="btn btn-primary" id="termRead">ЧИТАТЬ АРХИВ</button>
+      <button class="btn" id="termExit" aria-label="Выйти из системы (Esc)">ВЫЙТИ ИЗ СИСТЕМЫ</button>
+    </div>
+    <div class="hit-prompt" id="hitPrompt" hidden aria-live="assertive"><b>ЭКРАН НЕ ОТВЕЧАЕТ</b><span>УДАРЬ ПО ЭКРАНУ</span><i id="hitCount">0 / 3</i></div>
+    <canvas class="term-cracks" id="termCracks" hidden aria-hidden="true"></canvas>
+  </div>
+
+  <!-- ===== архив ===== -->
+  <div class="reader" id="reader" hidden role="region" aria-label="Архив К-47">
+    <header class="rd-head">
+      <button class="rd-btn" id="rdPrev" aria-label="Предыдущая глава (стрелка влево)">НАЗАД</button>
+      <div class="rd-mid"><span class="rd-ind" id="rdInd" aria-live="polite"></span><span class="rd-read" id="rdRead"></span></div>
+      <button class="rd-btn" id="rdNext" aria-label="Следующая глава (стрелка вправо)">ВПЕРЁД</button>
+      <button class="rd-btn" id="rdToc" aria-label="Оглавление (T)">ГЛАВЫ</button>
+      <button class="rd-btn rd-exit" id="rdClose" aria-label="Выйти из архива (Esc)">✕ ВЫЙТИ</button>
+      <div class="rd-progress" aria-hidden="true"><i id="rdProgress"></i><b id="rdScroll"></b></div>
+    </header>
+    <main class="reader-main" id="rdMain" tabindex="0" aria-label="Текст главы">
+      <article class="chapter" id="rdArticle"></article>
+    </main>
+    <div class="rd-controls" role="group" aria-label="Чтение по абзацам">
+      <span class="label">ПО АБЗАЦАМ</span>
+      <button class="btn" id="paraPrev" aria-label="Скрыть последний абзац">◀</button>
+      <span class="counter" aria-live="polite"><span id="paraCount">0</span> / <span id="paraTotal">0</span></span>
+      <button class="btn" id="paraNext" aria-label="Следующий абзац (стрелка вниз или пробел)">▶</button>
+      <button class="btn" id="paraAll" aria-label="Показать все абзацы (A)">ВСЁ</button>
+      <button class="btn" id="paraReset" aria-label="Скрыть все абзацы">СБРОС</button>
+    </div>
+  </div>
+
+  <!-- ===== окна терминала ===== -->
+  <div class="modal sys" id="warnModal" role="alertdialog" aria-modal="true" aria-labelledby="warnTitle" aria-describedby="warnBody" tabindex="-1" hidden>
+    <div class="panel">
+      <h2 class="sys-title" id="warnTitle">СИСТЕМНОЕ ПРЕДУПРЕЖДЕНИЕ // АРХИВ</h2>
+      <div class="sys-body" id="warnBody">
+        <p>Данный раздел восстановлен из <strong>нейрослепка</strong> и <strong>нейропрофиля клона класса «Актив»</strong> (идентификатор К-47).</p>
+        <p><strong>ВНИМАНИЕ.</strong> Содержимое архива включает:</p>
+        <ul>
+          <li>сцены <strong>исключительной жестокости</strong>;</li>
+          <li>описания <strong>эротического характера</strong>;</li>
+          <li>упоминания <strong>употребления наркотических веществ</strong>;</li>
+          <li>эпизоды, способные вызвать психологический дискомфорт.</li>
+        </ul>
+        <p>Возможны <strong>неточности</strong>, <strong>неполнота</strong>, <strong>искажения причинно-следственных связей</strong> и <strong>фрагментарность</strong>. Отдельные записи могут не соответствовать действительности.</p>
+        <p>С каждой прочитанной главой носитель изнашивается. Главы 47–49 заперты до выполнения нормы.</p>
+        <p>Читайте с осторожностью.</p>
+      </div>
+      <div class="sys-actions"><button class="btn btn-primary" id="warnOk">ПОНЯТНО</button></div>
+    </div>
+  </div>
+
+  <div class="modal sys" id="agreeModal" role="alertdialog" aria-modal="true" aria-labelledby="agreeTitle" tabindex="-1" hidden>
+    <div class="panel">
+      <h2 class="sys-title" id="agreeTitle">ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ // v.47</h2>
+      <div class="sys-body"><p>Для доступа к архиву необходимо принять следующие условия:</p></div>
+      <div class="agree-list">
+        <div class="agree-item" role="checkbox" aria-checked="false" tabindex="0">
+          <i class="agree-check" aria-hidden="true"></i>
+          <div class="agree-text"><strong>Соглашение о неразглашении</strong>Обязуюсь не распространять, не копировать и не передавать третьим лицам любую информацию, полученную из архива, включая её содержание, структуру и сам факт её существования.</div>
+        </div>
+        <div class="agree-item" role="checkbox" aria-checked="false" tabindex="0">
+          <i class="agree-check" aria-hidden="true"></i>
+          <div class="agree-text"><strong>Отказ от ответственности</strong>Принимаю на себя полную ответственность за возможные психологические, эмоциональные и иные последствия ознакомления с архивом. Корпорация «Vitezstvi» и её представители не несут ответственности за любой ущерб.</div>
+        </div>
+        <div class="agree-item" role="checkbox" aria-checked="false" tabindex="0">
+          <i class="agree-check" aria-hidden="true"></i>
+          <div class="agree-text"><strong>Отказ от претензий</strong>Отказываюсь от любых претензий, исков и требований к оператору системы, персоналу и корпорации, связанных с использованием архива, его содержанием и последствиями.</div>
+        </div>
+      </div>
+      <div class="sys-actions">
+        <button class="btn" id="agreeRefuse">ОТКАЗАТЬСЯ</button>
+        <button class="btn btn-primary" id="agreeAccept" disabled>ПРИНЯТЬ ВСЁ</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal lockdown" id="lockdown" role="alertdialog" aria-modal="true" aria-labelledby="lockTitle" tabindex="-1" hidden>
+    <div class="lock-stripes" aria-hidden="true"></div>
+    <div class="lock-icon" aria-hidden="true">⚠</div>
+    <h2 class="lock-title" id="lockTitle">ДОСТУП ЗАПРЕЩЁН</h2>
+    <p class="lock-sub">ОТКАЗ ОТ СОГЛАШЕНИЯ ЗАФИКСИРОВАН.<br>ВЫЗВАН <span class="hl">ОТРЯД ОХРАНЫ</span>.<br>ОЖИДАЙТЕ.</p>
+    <p class="lock-count" id="lockCount" aria-live="assertive">10</p>
+    <div class="lock-bar" aria-hidden="true"><i id="lockBar"></i></div>
+    <p class="lock-sub small">НЕ ПОКИДАЙТЕ ТЕРМИНАЛ</p>
+  </div>
+
+  <div class="modal damage" id="damageModal" role="alertdialog" aria-modal="true" aria-labelledby="damageTitle" aria-describedby="damageBody" tabindex="-1" hidden>
+    <div class="panel">
+      <div class="damage-icon" aria-hidden="true">!</div>
+      <h2 class="damage-title" id="damageTitle">ФАЙЛ ПОВРЕЖДЁН</h2>
+      <p class="damage-body" id="damageBody">Не удалось прочитать следующий раздел архива.<br>Данные восстановлены частично. Возможны ошибки в хронологии и содержании.</p>
+      <p class="damage-code" id="damageCode">ERR_0x47</p>
+      <button class="btn btn-primary" id="damageOk">ОК</button>
+    </div>
+  </div>
+
+
+  <!-- ===== предметы со стола ===== -->
+  <div class="modal notebook" id="nbModal" role="dialog" aria-modal="true" aria-labelledby="nbTitle" tabindex="-1" hidden>
+    <div class="paper">
+      <div class="paper-head"><span id="nbTitle">Личный блокнот</span><span id="nbDate"></span><button class="modal-close" data-close aria-label="Закрыть блокнот (Esc)">✕</button></div>
+      <div class="paper-note" id="nbNote"></div>
+      <textarea id="nbText" spellcheck="false" aria-label="Страница блокнота" placeholder="Здесь можно писать…"></textarea>
+      <div class="page-flip" id="nbFlip" aria-hidden="true"></div>
+      <div class="paper-foot">
+        <span id="nbCount">0 символов</span><span class="nb-saved" id="nbSaved">сохранено</span>
+        <span class="page-nav">
+          <button class="page-btn" id="nbPrev" aria-label="Предыдущая страница">‹</button>
+          <span class="page-ind" id="nbPage" aria-live="polite">1 / 47</span>
+          <button class="page-btn" id="nbNext" aria-label="Следующая страница">›</button>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal drawer" id="drawerModal" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" tabindex="-1" hidden>
+    <div class="panel">
+      <button class="modal-close" data-close aria-label="Закрыть ящик (Esc)">✕</button>
+      <h2 id="drawerTitle">ЯЩИК СТОЛА</h2>
+      <div class="drawer-items">
+        <button class="drawer-item" data-item="paper"><i class="ico ico-paper" aria-hidden="true"></i><span>БУМАГА</span></button>
+        <button class="drawer-item" data-item="list"><i class="ico ico-list" aria-hidden="true"></i><span>СПИСОК</span></button>
+        <button class="drawer-item" data-item="pda"><i class="ico ico-pda" aria-hidden="true"></i><span>КПК</span></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal zoom" id="zoomModal" role="dialog" aria-modal="true" aria-labelledby="zoomTitle" aria-describedby="zoomCaption" tabindex="-1" hidden>
+    <div class="panel">
+      <button class="modal-close" data-close aria-label="Закрыть (Esc)">✕</button>
+      <div class="zoom-img" id="zoomImg" aria-hidden="true"></div>
+      <h2 class="zoom-title" id="zoomTitle"></h2>
+      <p class="zoom-caption" id="zoomCaption"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= ПРОБУЖДЕНИЕ: изнутри капсулы ======================= -->
+<section class="act act-awake" id="act-awake" hidden aria-label="Пробуждение в капсуле">
+  <div class="aw-stage" id="awStage">
+    <div class="aw-view" id="awView"></div>
+    <div class="aw-labels" id="awLabels" aria-hidden="true"></div>
+    <div class="aw-glass" aria-hidden="true"><div class="aw-drops"></div></div>
+    <div class="aw-frame" aria-hidden="true"></div>
+    <div class="aw-lids" aria-hidden="true"><i></i><i></i></div>
+    <p class="look-hint aw-hint" id="awHint" aria-hidden="true">ЗАЖМИ И ВЕДИ — ОСМОТРЕТЬСЯ</p>
+  </div>
+  <div class="final" id="awFinal" hidden>
+    <canvas class="final-title final-splash" id="finSplash" aria-hidden="true"></canvas>
+    <h1 class="sr-only" id="finTitle">К-47. Нормы расхода плоти. Цикл-48</h1>
+    <p class="final-cut" id="finCut">И ДАЛЬШЕ БЕЗ СЧЁТА.</p>
+    <p class="final-words" id="finWords" aria-live="polite"></p>
+    <div class="final-actions" id="finActions" hidden>
+      <button class="btn" id="awRestart" aria-label="Начать сначала">СНАЧАЛА</button>
+      <button class="btn" id="awExit" aria-label="Выйти на заставку">ВЫЙТИ</button>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= КАБИНЕТ ПСИХОЛОГА (47 секунд в темноте) ======================= -->
+<section class="act act-psych" id="act-psych" hidden aria-label="Кабинет психолога">
+  <div class="ps-view" id="psView"></div>
+  <p class="look-hint ps-hint" id="psHint" aria-hidden="true">ЗАЖМИ И ВЕДИ — ОСМОТРЕТЬСЯ</p>
+  <div class="door-talk ps-talk" id="psTalk" hidden>
+    <p class="door-line" id="psLine" aria-live="assertive"></p>
+    <div class="door-choices" id="psChoices"></div>
+  </div>
+  <div class="ps-veil" id="psVeil" aria-hidden="true"></div>
+  <p class="ps-voice" id="psVoice" aria-live="assertive"></p>
+</section>
+
+<!-- ======================= РЕЖИМ ЧТЕНИЯ: только текст книги ======================= -->
+<section class="act act-read" id="act-read" hidden aria-label="Режим чтения">
+  <div class="reader read-mode">
+    <header class="rd-head">
+      <button class="rd-btn" id="rmPrev" aria-label="Предыдущая глава (стрелка влево)">НАЗАД</button>
+      <div class="rd-mid"><span class="rd-ind" id="rmInd"></span><span class="rd-read">РЕЖИМ ЧТЕНИЯ</span></div>
+      <button class="rd-btn" id="rmNext" aria-label="Следующая глава (стрелка вправо)">ВПЕРЁД</button>
+      <button class="rd-btn" id="rmToc" aria-label="Оглавление (T)">ГЛАВЫ</button>
+      <button class="rd-btn rd-exit" id="rmExit" aria-label="Выйти на заставку (Esc)">✕ ВЫЙТИ</button>
+      <div class="rd-progress" aria-hidden="true"><i id="rmProgress"></i></div>
+    </header>
+    <main class="reader-main" id="rmMain" tabindex="0" aria-label="Текст главы"><article class="chapter" id="rmArticle"></article></main>
+  </div>
+</section>
+
+<!-- ======================= МИНИ-ИГРА: восстановление фрагмента главы ======================= -->
+<section class="mg-stage" id="mgStage" hidden aria-labelledby="mgTitle">
+  <header class="mg-top">
+    <button class="rd-btn" id="mgAbort" aria-label="Прервать фрагмент (Esc)">✕ ПРЕРВАТЬ</button>
+    <div class="mg-title" id="mgTitle"></div>
+    <div class="mg-stat" id="mgStat" aria-live="polite"></div>
+  </header>
+  <div class="mg-body" id="mgBody"></div>
+  <p class="mg-hint" id="mgHint"></p>
+</section>
+
+<div class="modal mg-modal" id="mgIntro" role="dialog" aria-modal="true" aria-labelledby="mgIntroTitle" tabindex="-1" hidden>
+  <div class="panel">
+    <p class="kicker" id="mgIntroKicker"></p>
+    <h2 id="mgIntroTitle"></h2>
+    <div class="frag-text" id="mgIntroText"></div>
+    <p class="how" id="mgIntroHow"></p>
+    <p class="keys" id="mgIntroKeys"></p>
+    <div class="row">
+      <button class="btn" id="mgIntroBack">ЧИТАТЬ ПОВРЕЖДЁННЫМ</button>
+      <button class="btn btn-primary pulse" id="mgIntroGo">ВОССТАНОВИТЬ ФРАГМЕНТ</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal mg-modal" id="mgResult" role="dialog" aria-modal="true" aria-labelledby="mgResTitle" tabindex="-1" hidden>
+  <div class="panel">
+    <p class="kicker" id="mgResKicker"></p>
+    <h2 id="mgResTitle"></h2>
+    <div class="frag-text" id="mgResText"></div>
+    <div class="note-out" id="mgResNote" hidden></div>
+    <p class="res-line" id="mgResLine"></p>
+    <div class="row">
+      <button class="btn" id="mgResAgain">ЕЩЁ РАЗ</button>
+      <button class="btn btn-primary" id="mgResBack">ЧИТАТЬ ГЛАВУ</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal lockdown mg-break" id="mgBreak" role="alertdialog" aria-modal="true" aria-labelledby="mgBreakTitle" tabindex="-1" hidden>
+  <div class="lock-stripes" aria-hidden="true"></div>
+  <h2 class="lock-title" id="mgBreakTitle">НОСИТЕЛЬ РАЗРУШЕН</h2>
+  <p class="lock-sub">ИЗНОС 100%. НЕЙРОСЛЕПОК НЕ ПОДЛЕЖИТ ВОССТАНОВЛЕНИЮ.<br>ЦИКЛ ПРЕРВАН.</p>
+  <p class="lock-sub" id="mgBreakNext" style="color:#fff">К-48. ПОДЪЁМ.</p>
+  <button class="btn btn-primary" id="mgBreakOk" style="position:relative">ПРИНЯТЬ</button>
+</div>
+
+<!-- ======================= КЛОН УНИЧТОЖЕН ======================= -->
+<div class="death-screen" id="deathScreen" hidden role="alert" aria-live="assertive">
+  <canvas class="ds-canvas" id="dsCanvas" aria-hidden="true"></canvas>
+  <div class="ds-text">
+    <p class="ds-title" id="dsTitle">КЛОН УНИЧТОЖЕН</p>
+    <p class="ds-sub" id="dsSub"></p>
+    <p class="ds-next" id="dsNext"></p>
+  </div>
+</div>
+
+<!-- ======================= ОБЩИЕ СЛОИ ======================= -->
+<div class="modal confirm" id="confirmModal" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmText" tabindex="-1" hidden>
+  <div class="panel">
+    <h2 id="confirmTitle"></h2>
+    <p id="confirmText"></p>
+    <div class="row"><button class="btn" id="confirmNo">Нет</button><button class="btn btn-primary" id="confirmYes">Да</button></div>
+  </div>
+</div>
+
+<div class="modal toc" id="tocModal" role="dialog" aria-modal="true" aria-labelledby="tocTitle" tabindex="-1" hidden>
+  <div class="panel">
+    <button class="modal-close" data-close aria-label="Закрыть оглавление (Esc)">✕</button>
+    <h2 id="tocTitle">ОГЛАВЛЕНИЕ</h2>
+    <ol class="toc-list" id="tocList"></ol>
+  </div>
+</div>
+
+<button class="menu-btn" id="menuBtn" aria-label="Меню паузы (P)" hidden><i></i><i></i><i></i></button>
+<div class="modal pause" id="pauseMenu" role="dialog" aria-modal="true" aria-labelledby="pauseTitle" tabindex="-1" hidden>
+  <div class="panel">
+    <h2 id="pauseTitle">ПАУЗА</h2>
+    <p class="pause-sub">ИГРОВОЕ ВРЕМЯ ОСТАНОВЛЕНО</p>
+    <div class="pause-list">
+      <button class="btn btn-primary" id="pmContinue">ПРОДОЛЖИТЬ</button>
+      <button class="btn" id="pmSave">СОХРАНИТЬ ПРОГРЕСС</button>
+      <button class="btn" id="pmSettings">НАСТРОЙКИ</button>
+      <button class="btn btn-danger" id="pmEnd">ЗАКОНЧИТЬ ЦИКЛ</button>
+      <button class="btn" id="pmExit">ВЫЙТИ</button>
+    </div>
+    <p class="pause-keys">P — пауза · M — звук</p>
+  </div>
+</div>
+<div class="modal pause settings" id="settingsMenu" role="dialog" aria-modal="true" aria-labelledby="setTitle" tabindex="-1" hidden>
+  <div class="panel">
+    <h2 id="setTitle">НАСТРОЙКИ</h2>
+    <div class="set-row"><span>ЭФФЕКТЫ ЭКРАНА</span><button class="btn set-toggle" id="setFx" aria-pressed="true">ВКЛ</button></div>
+    <div class="set-row"><span>ЗВУК</span><button class="btn set-toggle" id="setSound" aria-pressed="true">ВКЛ</button></div>
+    <div class="set-row"><span>РЕЖИМ</span><button class="btn" id="setRead">РЕЖИМ ЧТЕНИЯ</button></div>
+    <div class="set-back"><button class="btn" data-close>НАЗАД</button></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="room-freeze death-freeze" id="deathFreeze" aria-hidden="true"><i class="g2"></i><i class="g1"></i><i class="g3"></i></div>
+<canvas id="fx-canvas" aria-hidden="true"></canvas>
+<div class="post post-scan" aria-hidden="true"></div>
+<div class="post post-vignette" aria-hidden="true"></div>
+<div class="post post-grain" aria-hidden="true"></div>
+<div id="flash" aria-hidden="true"></div>
+<div id="curtain" aria-hidden="true"></div>
+
